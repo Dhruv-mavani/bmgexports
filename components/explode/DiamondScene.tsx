@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useRef, type RefObject } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { buildBrilliant } from "./brilliantGeometry";
@@ -32,16 +32,18 @@ function Gem({
   envMap,
   progress,
   index,
+  bounces,
 }: {
   geometry: THREE.BufferGeometry;
   envMap: THREE.Texture;
   progress: RefObject<number>;
   index: number;
+  bounces: number;
 }) {
   // Each mesh needs its own material instance (it carries a BVH built from that mesh).
   const material = useMemo(
-    () => createBrilliantMaterial(geometry, envMap, { bounces: 6, aberration: 0.025, color: "#2a7de0", absorption: 0.32, gain: BASE_GAIN }),
-    [geometry, envMap],
+    () => createBrilliantMaterial(geometry, envMap, { bounces, aberration: 0.025, color: "#2a7de0", absorption: 0.32, gain: BASE_GAIN }),
+    [geometry, envMap, bounces],
   );
 
   /* three.js uniforms are mutated per frame by design. */
@@ -83,12 +85,16 @@ function Diamond({
   progress,
   labels,
   onReady,
+  mobile,
+  active,
 }: {
   progress: RefObject<number>;
   labels: RefObject<(HTMLDivElement | null)[]>;
   onReady?: () => void;
+  mobile: boolean;
+  active: boolean;
 }) {
-  const { camera, size, gl } = useThree();
+  const { camera, size, gl, invalidate, setDpr } = useThree();
   const envMap = useMemo(() => buildStudioEnv(gl), [gl]);
   const shadowMap = useShadowTexture();
   const geo = useMemo(() => buildBrilliant(), []);
@@ -99,6 +105,40 @@ function Diamond({
 
   const frames = useRef(0);
 
+  // Phones render on demand, so ask for a frame whenever the scene becomes visible, and only react
+  // to scrolling while it is on screen.
+  const activeRef = useRef(active);
+  useEffect(() => {
+    activeRef.current = active;
+    if (active) invalidate();
+  }, [active, invalidate]);
+
+  // Phones: render on demand (not 60 times a second) and trade resolution for smoothness while the
+  // page is moving, then re-render at full sharpness a moment after scrolling stops.
+  useEffect(() => {
+    if (!mobile) return;
+    const sharp = Math.min(window.devicePixelRatio || 1, 2);
+    let timer: ReturnType<typeof setTimeout>;
+    const onScroll = () => {
+      if (!activeRef.current) return;
+      setDpr(1);
+      invalidate();
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        setDpr(sharp);
+        invalidate();
+      }, 140);
+    };
+    setDpr(sharp);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [mobile, invalidate, setDpr]);
+
   useFrame((state) => {
     const p = progress.current ?? 0;
     const e = ramp(0.1, 0.28, p) - ramp(0.8, 0.9, p);
@@ -107,7 +147,8 @@ function Diamond({
     const widthUnits = 2 * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)) * cam.position.z * (size.width / size.height);
     const fit = Math.min(1, widthUnits / 3.3);
     const scale = (1.5 - 0.5 * e) * fit;
-    const spinY = p * Math.PI * 5 + state.clock.elapsedTime * 0.12;
+    // Slow idle drift keeps facets glinting on desktop; phones skip it so the scene can sleep when still.
+    const spinY = p * Math.PI * 5 + (mobile ? 0 : state.clock.elapsedTime * 0.12);
 
     if (root.current) root.current.scale.setScalar(scale);
 
@@ -131,7 +172,11 @@ function Diamond({
     if (shadow.current) shadow.current.material.opacity = 0.4 * (1 - e);
 
     // Report ready once a few real frames have drawn (shader compiled, stone on screen).
-    if (frames.current < 3 && ++frames.current === 3) onReady?.();
+    if (frames.current < 3) {
+      frames.current++;
+      invalidate(); // on-demand mode: keep drawing until the first few frames are out
+      if (frames.current === 3) onReady?.();
+    }
   });
 
   const parts = [geo.table, geo.crown, geo.girdle, geo.pavilion, geo.culet];
@@ -146,7 +191,7 @@ function Diamond({
         {parts.map((geometry, i) => (
           <group key={PARTS[i].name} ref={(g) => void (partRefs.current[i] = g)}>
             <group ref={(g) => void (spinRefs.current[i] = g)}>
-              <Gem geometry={geometry} envMap={envMap} progress={progress} index={i} />
+              <Gem geometry={geometry} envMap={envMap} progress={progress} index={i} bounces={mobile ? 4 : 6} />
             </group>
           </group>
         ))}
@@ -166,15 +211,19 @@ export default function DiamondScene({
   active: boolean;
   onReady?: () => void;
 }) {
+  // Decided once on the client (this component never renders on the server).
+  const [mobile] = useState(() => window.matchMedia("(max-width: 767px), (pointer: coarse)").matches);
+
   return (
     <Canvas
       camera={{ position: [0, 0, 6.5], fov: 35 }}
-      dpr={[1, 1.5]}
-      frameloop={active ? "always" : "never"}
-      gl={{ alpha: true, antialias: true, toneMapping: THREE.NoToneMapping }}
+      dpr={mobile ? 1 : [1, 1.75]}
+      // Phones stay in on-demand mode permanently (switching modes later can swallow the first frame request).
+      frameloop={mobile ? "demand" : active ? "always" : "never"}
+      gl={{ alpha: true, antialias: !mobile, toneMapping: THREE.NoToneMapping }}
     >
       <Suspense fallback={null}>
-        <Diamond progress={progress} labels={labels} onReady={onReady} />
+        <Diamond progress={progress} labels={labels} onReady={onReady} mobile={mobile} active={active} />
       </Suspense>
     </Canvas>
   );

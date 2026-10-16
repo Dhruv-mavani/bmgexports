@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import DiamondCard from "@/components/DiamondCard";
 import ExplodeSection from "@/components/explode/ExplodeSection";
 import SectionHeading from "@/components/SectionHeading";
@@ -9,6 +10,13 @@ const trust = [
   { title: "Ethically sourced", text: "Conflict-free, fully traceable supply." },
   { title: "Worldwide", text: "Insured shipping to buyers across the globe." },
 ];
+
+export const metadata: Metadata = {
+  title: { absolute: "BGM Exports — Certified Diamonds, Exported Worldwide" },
+  description:
+    "Certified diamonds, including fancy blue stones, supplied to jewellers, designers and collectors worldwide. Explore the anatomy of a diamond and send an enquiry to BGM Exports.",
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   const featured = diamonds.filter((d) => d.featured);

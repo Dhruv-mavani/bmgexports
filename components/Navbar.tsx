@@ -15,7 +15,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-mist bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-mist bg-white sm:bg-white/90 sm:backdrop-blur">
       {/* Fixed 64px bar (+1px border): the home-page scroll scene positions itself against this height. */}
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Main">
         <Link href="/" aria-label="BGM Exports home" onClick={() => setOpen(false)}>

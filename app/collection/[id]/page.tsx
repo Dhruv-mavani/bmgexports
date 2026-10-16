@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import JsonLd from "@/components/JsonLd";
+import { abs, SITE } from "@/lib/site";
 import { diamonds, getDiamond } from "@/data/diamonds";
 
 export function generateStaticParams() {
@@ -11,7 +13,16 @@ export function generateStaticParams() {
 export async function generateMetadata(props: PageProps<"/collection/[id]">): Promise<Metadata> {
   const { id } = await props.params;
   const d = getDiamond(id);
-  return { title: d ? `${d.carat.toFixed(2)} ct ${d.shape}` : "Not found" };
+  if (!d) return { title: "Stone not found", robots: { index: false } };
+  const name = `${d.carat.toFixed(2)} ct ${d.shape} ${d.color} Diamond`;
+  const description = `${name}: ${d.clarity} clarity, ${d.cut} cut, ${d.certificate} certified. Enquire with BGM Exports for availability and pricing.`;
+  return {
+    title: name,
+    description,
+    alternates: { canonical: `/collection/${d.id}` },
+    openGraph: { type: "website", title: name, description, images: [{ url: d.sheet, width: 1536, height: 1024, alt: name }] },
+    twitter: { card: "summary_large_image", title: name, description, images: [d.sheet] },
+  };
 }
 
 export default async function DiamondPage(props: PageProps<"/collection/[id]">) {
@@ -28,7 +39,44 @@ export default async function DiamondPage(props: PageProps<"/collection/[id]">) 
     ["Certificate", d.certificate],
   ];
 
+  const name = `${d.carat.toFixed(2)} ct ${d.shape} ${d.color} Diamond`;
+
   return (
+    <>
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Product",
+            "@id": `${abs(`/collection/${d.id}`)}#product`,
+            name,
+            description: `${name}, ${d.clarity} clarity, ${d.cut} cut, ${d.certificate} certified.`,
+            sku: d.id,
+            category: "Diamond",
+            image: [abs(d.image), abs(d.sheet)],
+            url: abs(`/collection/${d.id}`),
+            brand: { "@type": "Brand", name: SITE.name },
+            additionalProperty: [
+              { "@type": "PropertyValue", name: "Shape", value: d.shape },
+              { "@type": "PropertyValue", name: "Carat weight", value: d.carat, unitText: "ct" },
+              { "@type": "PropertyValue", name: "Colour", value: d.color },
+              { "@type": "PropertyValue", name: "Clarity", value: d.clarity },
+              { "@type": "PropertyValue", name: "Cut", value: d.cut },
+              { "@type": "PropertyValue", name: "Certificate", value: d.certificate },
+            ],
+          },
+          {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: abs("/") },
+              { "@type": "ListItem", position: 2, name: "Collection", item: abs("/collection") },
+              { "@type": "ListItem", position: 3, name, item: abs(`/collection/${d.id}`) },
+            ],
+          },
+        ],
+      }}
+    />
     <section className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
       <Link href="/collection" className="text-sm text-slate hover:text-royal">← Back to collection</Link>
       <div className="mt-8 grid gap-12 md:grid-cols-2">
@@ -55,5 +103,6 @@ export default async function DiamondPage(props: PageProps<"/collection/[id]">) 
         </div>
       </div>
     </section>
+    </>
   );
 }

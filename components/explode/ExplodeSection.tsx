@@ -29,7 +29,7 @@ export default function ExplodeSection() {
   const progress = useRef(0);
   const labels = useRef<(HTMLDivElement | null)[]>([]);
   const [stage, setStage] = useState(0);
-  const [bar, setBar] = useState(0);
+  const bar = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [ready, setReady] = useState(false);
@@ -54,16 +54,21 @@ export default function ExplodeSection() {
     if (!el || reduced) return;
 
     let raf = 0;
-    const update = () => {
-      raf = 0;
+    // Progress is computed synchronously on every scroll event (cheap) so the 3D scene always reads
+    // the latest value; React state is only touched once per frame, and only when the stage changes.
+    const compute = () => {
       const rect = el.getBoundingClientRect();
       const travel = rect.height - (window.innerHeight - NAV_HEIGHT);
       const p = Math.min(1, Math.max(0, (NAV_HEIGHT - rect.top) / travel));
       progress.current = p;
-      setStage(stageAt(p));
-      setBar(p);
+      if (bar.current) bar.current.style.height = `${p * 100}%`;
+    };
+    const update = () => {
+      raf = 0;
+      setStage(stageAt(progress.current));
     };
     const onScroll = () => {
+      compute();
       if (!raf) raf = requestAnimationFrame(update);
     };
 
@@ -71,6 +76,7 @@ export default function ExplodeSection() {
     io.observe(el);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    compute();
     update();
     return () => {
       io.disconnect();
@@ -108,6 +114,21 @@ export default function ExplodeSection() {
 
   return (
     <section ref={wrapper} className="relative h-[500vh] border-b border-mist bg-gradient-to-b from-ice via-white to-white" aria-label="Anatomy of a diamond">
+      {/* The pinned scene only shows one stage at a time. This keeps the whole story (and the page's
+          single <h1>) in the document for search engines, screen readers and AI agents. */}
+      <div className="sr-only">
+        <h1>BGM Exports: {stages[0].title}</h1>
+        <p>{stages[0].body}</p>
+        <h2>Anatomy of a diamond</h2>
+        <ol>
+          {stages.slice(1, -1).map((s) => (
+            <li key={s.title}>
+              <strong>{s.title}.</strong> {s.body}
+            </li>
+          ))}
+        </ol>
+        <p>{stages[stages.length - 1].body}</p>
+      </div>
       <div
         className="sticky top-[65px] mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] px-4 sm:px-6 md:grid-cols-2 md:grid-rows-1 md:items-center md:gap-8"
         style={{ height: `calc(100svh - ${NAV_HEIGHT}px)` }}
@@ -132,13 +153,9 @@ export default function ExplodeSection() {
 
         <div className="pb-8 md:order-1 md:pb-0" aria-live="polite">
           <p className="text-xs uppercase tracking-[0.3em] text-royal">{current.eyebrow}</p>
-          {stage === 0 ? (
-            <h1 className="fade-up mt-3 font-serif text-[2rem] leading-tight text-navy sm:text-5xl lg:text-6xl">{current.title}</h1>
-          ) : (
-            <h2 key={current.title} className="fade-up mt-3 font-serif text-[2rem] leading-tight text-navy sm:text-5xl lg:text-6xl">
-              {current.title}
-            </h2>
-          )}
+          <h2 key={current.title} className="fade-up mt-3 font-serif text-[2rem] leading-tight text-navy sm:text-5xl lg:text-6xl">
+            {current.title}
+          </h2>
           <p key={current.body} className="fade-up mt-3 max-w-md text-sm text-slate sm:mt-4 sm:text-base">
             {current.body}
           </p>
@@ -146,7 +163,7 @@ export default function ExplodeSection() {
         </div>
 
         <div className="absolute inset-y-[15%] right-3 hidden w-px bg-mist md:block" aria-hidden>
-          <div className="w-px bg-royal" style={{ height: `${bar * 100}%` }} />
+          <div ref={bar} className="w-px bg-royal" style={{ height: 0 }} />
         </div>
       </div>
     </section>
