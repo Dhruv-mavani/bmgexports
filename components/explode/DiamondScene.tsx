@@ -133,12 +133,20 @@ function Diamond({
     // Narrow canvases (phones) can't fit a full-size stone: shrink it to the available width.
     const cam = state.camera as THREE.PerspectiveCamera;
     const widthUnits = 2 * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)) * cam.position.z * (size.width / size.height);
-    const fit = Math.min(1, widthUnits / 3.3);
+    // On phones the open stone shrinks slightly and slides left to leave a column for the part labels.
+    const labelSpace = mobile ? 0.95 : 0;
+    const fitAssembled = Math.min(1, widthUnits / 3.3);
+    const fitOpen = Math.min(1, Math.max(0.3, (widthUnits - labelSpace) / 2.4));
+    const fit = fitAssembled + (fitOpen - fitAssembled) * e;
     const scale = (1.5 - 0.5 * e) * fit;
+    const shiftX = -(labelSpace / 2) * e;
     // Slow idle drift keeps facets glinting on desktop; phones skip it so the scene can sleep when still.
     const spinY = p * Math.PI * 5 + (mobile ? 0 : state.clock.elapsedTime * 0.12);
 
-    if (root.current) root.current.scale.setScalar(scale);
+    if (root.current) {
+      root.current.scale.setScalar(scale);
+      root.current.position.x = shiftX;
+    }
 
     PARTS.forEach((part, i) => {
       const g = partRefs.current[i];
@@ -152,7 +160,7 @@ function Diamond({
       const el = labels.current?.[i];
       if (!el) return;
       // Project the part's world position to screen space so the DOM label tracks it.
-      v.set(1.2 * scale, (part.y + part.lift * e) * scale + 0.1, 0).project(camera);
+      v.set(shiftX + 1.15 * scale, (part.y + part.lift * e) * scale + 0.1, 0).project(camera);
       el.style.transform = `translate(${(v.x * 0.5 + 0.5) * size.width}px, ${(-v.y * 0.5 + 0.5) * size.height}px) translateY(-50%)`;
       el.style.opacity = String(clamp01((e - 0.25 - i * 0.08) / 0.3));
     });

@@ -139,15 +139,15 @@ export default function ExplodeSection() {
           <div className={`h-full transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}>
             <DiamondScene progress={progress} labels={labels} active={inView} onReady={onReady} />
           </div>
-          <div className="pointer-events-none absolute inset-0 hidden overflow-hidden md:block" aria-hidden>
+          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             {partNames.map((name, i) => (
               <div
                 key={name}
                 ref={(el) => void (labels.current[i] = el)}
-                className="absolute left-0 top-0 flex items-center gap-2 whitespace-nowrap opacity-0"
+                className="absolute left-0 top-0 flex items-center gap-1.5 whitespace-nowrap opacity-0 md:gap-2"
               >
-                <span className="h-px w-5 bg-royal" />
-                <span className="text-[11px] uppercase tracking-[0.18em] text-navy">{name}</span>
+                <span className="h-px w-3 bg-royal md:w-5" />
+                <span className="text-[10px] uppercase tracking-[0.12em] text-navy md:text-[11px] md:tracking-[0.18em]">{name}</span>
               </div>
             ))}
           </div>
