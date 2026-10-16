@@ -1,4 +1,4 @@
-import { diamonds } from "@/data/diamonds";
+import { diamonds, stoneName } from "@/data/diamonds";
 import { abs, SITE } from "@/lib/site";
 
 // Public, read-only catalogue for AI assistants and agents. Filters: ?shape=, ?min_carat=, ?max_carat=
@@ -12,13 +12,13 @@ export function GET(request: Request) {
     .filter((d) => (!shape || d.shape.toLowerCase() === shape) && d.carat >= min && d.carat <= max)
     .map((d) => ({
       id: d.id,
-      name: `${d.carat.toFixed(2)} ct ${d.shape}`,
+      name: stoneName(d),
       shape: d.shape,
       carat: d.carat,
       colour: d.color,
       clarity: d.clarity,
-      cut: d.cut,
-      certificate: d.certificate,
+      ...(d.cut ? { cut: d.cut } : {}),
+      ...(d.certificate ? { certificate: d.certificate } : {}),
       url: abs(`/collection/${d.id}`),
       enquiry_url: abs(`/contact?stone=${d.id}`),
       image: abs(d.image),

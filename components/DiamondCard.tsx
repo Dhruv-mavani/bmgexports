@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Diamond } from "@/data/diamonds";
+import { fmtCarat, type Diamond } from "@/data/diamonds";
 
 export default function DiamondCard({ diamond }: { diamond: Diamond }) {
   return (
@@ -20,12 +20,12 @@ export default function DiamondCard({ diamond }: { diamond: Diamond }) {
       </div>
       <div className="border-t border-mist p-5">
         <p className="font-serif text-2xl text-navy">
-          {diamond.carat.toFixed(2)} ct {diamond.shape}
+          {fmtCarat(diamond.carat)} ct {diamond.shape}
         </p>
         <p className="mt-1 text-sm text-slate">
-          {diamond.color} · {diamond.clarity} · {diamond.cut}
+          Colour {diamond.color} · {diamond.clarity}{diamond.cut ? ` · ${diamond.cut}` : ""}
         </p>
-        <p className="mt-3 text-xs uppercase tracking-[0.2em] text-royal">{diamond.certificate} Certified</p>
+        {diamond.certificate && <p className="mt-3 text-xs uppercase tracking-[0.2em] text-royal">{diamond.certificate} Certified</p>}
       </div>
     </Link>
   );

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import JsonLd from "@/components/JsonLd";
 import FilterableGrid from "@/components/FilterableGrid";
 import SectionHeading from "@/components/SectionHeading";
-import { diamonds } from "@/data/diamonds";
+import { diamonds, stoneName } from "@/data/diamonds";
 import { abs } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default function CollectionPage() {
                   "@type": "ListItem",
                   position: i + 1,
                   url: abs(`/collection/${d.id}`),
-                  name: `${d.carat.toFixed(2)} ct ${d.shape} diamond`,
+                  name: `${stoneName(d)} diamond`,
                 })),
               },
             },

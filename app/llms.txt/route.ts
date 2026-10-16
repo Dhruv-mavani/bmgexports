@@ -1,10 +1,10 @@
-import { diamonds } from "@/data/diamonds";
+import { diamonds, stoneName, stoneSummary } from "@/data/diamonds";
 import { abs, CONTACT, FAQ, SITE } from "@/lib/site";
 
 // llms.txt: a plain-text guide for AI assistants (https://llmstxt.org).
 export function GET() {
   const stones = diamonds
-    .map((d) => `- [${d.carat.toFixed(2)} ct ${d.shape}](${abs(`/collection/${d.id}`)}): ${d.color}, ${d.clarity}, ${d.cut} cut, ${d.certificate} certified`)
+    .map((d) => `- [${stoneName(d)}](${abs(`/collection/${d.id}`)}): ${stoneSummary(d)}`)
     .join("\n");
 
   const faq = FAQ.map((f) => `### ${f.q}\n${f.a}`).join("\n\n");

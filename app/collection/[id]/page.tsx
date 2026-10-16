@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import JsonLd from "@/components/JsonLd";
 import { abs, SITE } from "@/lib/site";
-import { diamonds, getDiamond } from "@/data/diamonds";
+import { diamonds, fmtCarat, getDiamond, stoneName, stoneSummary } from "@/data/diamonds";
 
 export function generateStaticParams() {
   return diamonds.map((d) => ({ id: d.id }));
@@ -14,8 +14,8 @@ export async function generateMetadata(props: PageProps<"/collection/[id]">): Pr
   const { id } = await props.params;
   const d = getDiamond(id);
   if (!d) return { title: "Stone not found", robots: { index: false } };
-  const name = `${d.carat.toFixed(2)} ct ${d.shape} ${d.color} Diamond`;
-  const description = `${name}: ${d.clarity} clarity, ${d.cut} cut, ${d.certificate} certified. Enquire with BGM Exports for availability and pricing.`;
+  const name = `${stoneName(d)} Diamond`;
+  const description = `${name}: ${stoneSummary(d)}. Enquire with BGM Exports for availability and pricing.`;
   return {
     title: name,
     description,
@@ -32,14 +32,14 @@ export default async function DiamondPage(props: PageProps<"/collection/[id]">) 
 
   const specs = [
     ["Shape", d.shape],
-    ["Carat", d.carat.toFixed(2)],
+    ["Carat", fmtCarat(d.carat)],
     ["Colour", d.color],
     ["Clarity", d.clarity],
-    ["Cut", d.cut],
-    ["Certificate", d.certificate],
+    ...(d.cut ? [["Cut", d.cut]] : []),
+    ...(d.certificate ? [["Certificate", d.certificate]] : []),
   ];
 
-  const name = `${d.carat.toFixed(2)} ct ${d.shape} ${d.color} Diamond`;
+  const name = `${stoneName(d)} Diamond`;
 
   return (
     <>
@@ -51,7 +51,7 @@ export default async function DiamondPage(props: PageProps<"/collection/[id]">) 
             "@type": "Product",
             "@id": `${abs(`/collection/${d.id}`)}#product`,
             name,
-            description: `${name}, ${d.clarity} clarity, ${d.cut} cut, ${d.certificate} certified.`,
+            description: `${name}, ${stoneSummary(d)}.`,
             sku: d.id,
             category: "Diamond",
             image: [abs(d.image), abs(d.sheet)],
@@ -62,8 +62,8 @@ export default async function DiamondPage(props: PageProps<"/collection/[id]">) 
               { "@type": "PropertyValue", name: "Carat weight", value: d.carat, unitText: "ct" },
               { "@type": "PropertyValue", name: "Colour", value: d.color },
               { "@type": "PropertyValue", name: "Clarity", value: d.clarity },
-              { "@type": "PropertyValue", name: "Cut", value: d.cut },
-              { "@type": "PropertyValue", name: "Certificate", value: d.certificate },
+              ...(d.cut ? [{ "@type": "PropertyValue", name: "Cut", value: d.cut }] : []),
+              ...(d.certificate ? [{ "@type": "PropertyValue", name: "Certificate", value: d.certificate }] : []),
             ],
           },
           {
@@ -84,8 +84,8 @@ export default async function DiamondPage(props: PageProps<"/collection/[id]">) 
           <Image src={d.sheet} alt={`${d.shape} cut blue diamond — up, down, side and angled views`} width={1536} height={1024} sizes="(min-width: 768px) 560px, 100vw" className="w-full" priority />
         </div>
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-royal">{d.certificate} Certified</p>
-          <h1 className="mt-3 font-serif text-4xl sm:text-5xl">{d.carat.toFixed(2)} ct {d.shape}</h1>
+          {d.certificate && <p className="text-xs uppercase tracking-[0.3em] text-royal">{d.certificate} Certified</p>}
+          <h1 className="mt-3 font-serif text-4xl sm:text-5xl">{stoneName(d)}</h1>
           <dl className="mt-10 divide-y divide-mist border-y border-mist">
             {specs.map(([k, v]) => (
               <div key={k} className="flex justify-between py-3 text-sm">

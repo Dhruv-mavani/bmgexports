@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { diamonds } from "@/data/diamonds";
+import { diamonds, stoneName } from "@/data/diamonds";
 import { abs } from "@/lib/site";
 
 // Exposes the site's capabilities as tools to browser agents via WebMCP (navigator.modelContext).
@@ -24,13 +24,13 @@ const text = (value: unknown): ToolResult => ({ content: [{ type: "text", text: 
 
 const summarise = (d: (typeof diamonds)[number]) => ({
   id: d.id,
-  name: `${d.carat.toFixed(2)} ct ${d.shape}`,
+  name: stoneName(d),
   shape: d.shape,
   carat: d.carat,
   colour: d.color,
   clarity: d.clarity,
-  cut: d.cut,
-  certificate: d.certificate,
+  ...(d.cut ? { cut: d.cut } : {}),
+  ...(d.certificate ? { certificate: d.certificate } : {}),
   url: abs(`/collection/${d.id}`),
 });
 
