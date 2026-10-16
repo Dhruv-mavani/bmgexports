@@ -11,7 +11,7 @@ const WEB3FORMS_URL = "https://api.web3forms.com/submit";
 const ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
 
 const field =
-  "mt-2 w-full border border-mist bg-white px-4 py-3 text-navy outline-none transition-colors focus:border-royal";
+  "mt-2 w-full border border-mist bg-[#fafcff] px-4 py-3 text-sm text-navy outline-none transition-all duration-300 focus:bg-white focus:border-royal focus:ring-2 focus:ring-royal/15 placeholder:text-slate/40";
 
 export default function EnquiryForm() {
   const stone = useSearchParams().get("stone") ?? "";
@@ -60,31 +60,31 @@ export default function EnquiryForm() {
       onSubmit={onSubmit}
       className="space-y-5"
       // WebMCP: lets browser agents discover this form as a tool (the user still reviews and sends it).
-      {...{ toolname: "send_enquiry", tooldescription: "Send an enquiry to BMG Exports about a diamond. Requires name, email and message; stone is an optional stone id such as bmg-001." }}
+      {...{ toolname: "send_enquiry", tooldescription: "Send an enquiry to BMG Exports about a diamond. Requires name, email and message; stone is an optional stock number such as BMG-RAD-0001." }}
     >
-      <div className="grid gap-5 sm:grid-cols-2">
-        <label className="block text-sm">
+      <div className="grid gap-6 sm:grid-cols-2">
+        <label className="block text-xs uppercase tracking-[0.16em] text-slate font-medium">
           Name
           <input name="name" required maxLength={100} autoComplete="name" className={field} />
         </label>
-        <label className="block text-sm">
+        <label className="block text-xs uppercase tracking-[0.16em] text-slate font-medium">
           Email
           <input name="email" type="email" required maxLength={200} autoComplete="email" className={field} />
         </label>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <label className="block text-sm">
+      <div className="grid gap-6 sm:grid-cols-2">
+        <label className="block text-xs uppercase tracking-[0.16em] text-slate font-medium">
           Phone (optional)
           <input name="phone" type="tel" maxLength={30} autoComplete="tel" className={field} />
         </label>
-        <label className="block text-sm">
+        <label className="block text-xs uppercase tracking-[0.16em] text-slate font-medium">
           Stone reference (optional)
           <input name="stone" defaultValue={stone} maxLength={50} className={field} />
         </label>
       </div>
       {/* Honeypot: real visitors never see or tick this; bots that fill every field get filtered out. */}
       <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden />
-      <label className="block text-sm">
+      <label className="block text-xs uppercase tracking-[0.16em] text-slate font-medium">
         Message
         <textarea name="message" required rows={5} maxLength={2000} className={field} />
       </label>
@@ -96,9 +96,9 @@ export default function EnquiryForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="bg-navy px-6 py-3 text-xs sm:px-8 sm:text-sm uppercase tracking-[0.2em] text-white transition-colors hover:bg-royal disabled:opacity-60"
+        className="cursor-pointer bg-navy px-8 py-3.5 text-xs uppercase tracking-[0.25em] text-white transition-all duration-300 hover:bg-royal hover:shadow-md disabled:opacity-60"
       >
-        {status === "sending" ? "Sending…" : "Send enquiry"}
+        {status === "sending" ? "Sending…" : "Send enquiry →"}
       </button>
     </form>
   );

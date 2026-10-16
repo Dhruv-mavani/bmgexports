@@ -10,7 +10,7 @@ export const SITE = {
     "certified diamonds",
     "diamond exporter",
     "blue diamonds",
-    "fancy blue diamond",
+    "blue diamond",
     "GIA certified diamonds",
     "IGI certified diamonds",
     "wholesale diamonds",
@@ -58,8 +58,8 @@ export const FAQ: { q: string; a: string }[] = [
     a: "The 4Cs are cut, colour, clarity and carat. Cut is how well the stone is proportioned and polished to return light. Colour is the body colour or the lack of it. Clarity is how few inclusions and blemishes are visible under 10× magnification. Carat is weight: one carat is 0.2 grams.",
   },
   {
-    q: "What is a fancy blue diamond?",
-    a: "A fancy blue diamond is a diamond whose body colour is distinctly blue. In coloured diamonds, a more saturated, richer hue is rarer and generally more valuable.",
+    q: "How is a diamond's colour graded?",
+    a: "Colourless to light-yellow diamonds are graded on a letter scale from D (colourless) to Z (light colour), so D to F is colourless and G to J is near colourless. Strongly coloured 'fancy' diamonds, such as blue or pink, are graded separately by hue and intensity.",
   },
   {
     q: "What are the parts of a diamond?",

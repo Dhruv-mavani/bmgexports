@@ -55,7 +55,7 @@ const siteSchema = {
       logo: { "@type": "ImageObject", url: abs("/images/logo.png"), width: 1072, height: 385 },
       description: SITE.description,
       slogan: SITE.tagline,
-      knowsAbout: ["Diamonds", "Certified diamonds", "Fancy blue diamonds", "Diamond export", "GIA and IGI grading"],
+      knowsAbout: ["Diamonds", "Certified diamonds", "Blue diamonds", "Diamond export", "GIA and IGI grading"],
       email: CONTACT.email,
       address: {
         "@type": "PostalAddress",

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { diamonds, stoneName } from "@/data/diamonds";
+import { diamonds, stoneCode, stoneName, stonePath } from "@/data/diamonds";
 import { abs } from "@/lib/site";
 
 // Exposes the site's capabilities as tools to browser agents via WebMCP (navigator.modelContext).
@@ -24,6 +24,7 @@ const text = (value: unknown): ToolResult => ({ content: [{ type: "text", text: 
 
 const summarise = (d: (typeof diamonds)[number]) => ({
   id: d.id,
+  stock_number: stoneCode(d),
   name: stoneName(d),
   shape: d.shape,
   carat: d.carat,
@@ -31,7 +32,7 @@ const summarise = (d: (typeof diamonds)[number]) => ({
   clarity: d.clarity,
   ...(d.cut ? { cut: d.cut } : {}),
   ...(d.certificate ? { certificate: d.certificate } : {}),
-  url: abs(`/collection/${d.id}`),
+  url: abs(stonePath(d)),
 });
 
 const tools: Tool[] = [
@@ -55,7 +56,7 @@ const tools: Tool[] = [
   },
   {
     name: "get_diamond",
-    description: "Get the full details of one diamond by its id (for example bmg-001).",
+    description: "Get the full details of one diamond by its stock number (for example BMG-RAD-0001).",
     inputSchema: { type: "object", properties: { id: { type: "string", description: "Stone id" } }, required: ["id"] },
     execute: (args) => {
       const d = diamonds.find((x) => x.id === args.id);

@@ -62,7 +62,7 @@ export default function Footer() {
             <p className="mt-3 max-w-xs text-sm text-white/65">Certified diamonds, selected with care and delivered worldwide.</p>
             <Link
               href="/contact"
-              className="mt-7 inline-block bg-white px-6 py-3 text-xs uppercase tracking-[0.2em] text-navy transition-colors hover:bg-mist sm:px-8 sm:text-sm"
+              className="mt-7 inline-block bg-white px-6 py-3 text-xs uppercase tracking-[0.2em] text-navy transition-all duration-300 hover:bg-mist hover:shadow-lg hover:scale-[1.02] sm:px-8 sm:text-sm font-medium"
             >
               Send an enquiry
             </Link>

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import FilterableGrid from "@/components/FilterableGrid";
 import SectionHeading from "@/components/SectionHeading";
-import { diamonds, stoneName } from "@/data/diamonds";
+import { diamonds, diamondsOfShape, shapePath, shapes, stoneCode, stoneName, stonePath } from "@/data/diamonds";
 import { abs } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -29,8 +30,8 @@ export default function CollectionPage() {
                 itemListElement: diamonds.map((d, i) => ({
                   "@type": "ListItem",
                   position: i + 1,
-                  url: abs(`/collection/${d.id}`),
-                  name: `${stoneName(d)} diamond`,
+                  url: abs(stonePath(d)),
+                  name: `${stoneCode(d)} — ${stoneName(d)} diamond`,
                 })),
               },
             },
@@ -46,7 +47,19 @@ export default function CollectionPage() {
       />
     <section className="mx-auto max-w-6xl px-4 sm:px-6 py-20">
       <SectionHeading level={1} eyebrow="Collection" title="Certified diamonds" intro="Filter by shape and size to find your stone." />
-      <div className="mt-12">
+      <nav aria-label="Browse by shape" className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+        <span className="w-full text-center text-[11px] uppercase tracking-[0.25em] text-slate sm:w-auto">Browse by shape</span>
+        {shapes.map((s) => (
+          <Link
+            key={s}
+            href={shapePath(s)}
+            className="border border-mist bg-white px-4 py-2 text-xs uppercase tracking-[0.2em] text-slate transition-colors hover:border-royal/50 hover:text-navy"
+          >
+            {s} <span className="ml-1 text-[10px] opacity-75">({diamondsOfShape(s).length})</span>
+          </Link>
+        ))}
+      </nav>
+      <div className="mt-10">
         <FilterableGrid />
       </div>
     </section>

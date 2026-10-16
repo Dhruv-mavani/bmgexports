@@ -14,10 +14,16 @@ const NAV_HEIGHT = 65; // sticky navbar, px
 function Cta() {
   return (
     <div className="mt-6 flex flex-wrap gap-3 sm:mt-8 sm:gap-4">
-      <Link href="/collection" className="bg-navy px-6 py-3 text-xs uppercase tracking-[0.2em] text-white sm:px-8 sm:text-sm transition-colors hover:bg-royal">
+      <Link
+        href="/collection"
+        className="bg-navy px-6 py-3 text-xs uppercase tracking-[0.2em] text-white sm:px-8 sm:text-sm transition-all duration-300 hover:bg-royal hover:shadow-md"
+      >
         View collection
       </Link>
-      <Link href="/contact" className="border border-navy px-6 py-3 text-xs uppercase tracking-[0.2em] text-navy sm:px-8 sm:text-sm transition-colors hover:border-royal hover:text-royal">
+      <Link
+        href="/contact"
+        className="border border-navy px-6 py-3 text-xs uppercase tracking-[0.2em] text-navy sm:px-8 sm:text-sm transition-all duration-300 hover:border-royal hover:text-royal hover:bg-ice/50"
+      >
         Enquire
       </Link>
     </div>

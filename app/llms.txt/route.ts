@@ -1,10 +1,10 @@
-import { diamonds, stoneName, stoneSummary } from "@/data/diamonds";
+import { diamonds, shapePath, shapes, stoneCode, stoneName, stonePath, stoneSummary } from "@/data/diamonds";
 import { abs, CONTACT, FAQ, SITE } from "@/lib/site";
 
 // llms.txt: a plain-text guide for AI assistants (https://llmstxt.org).
 export function GET() {
   const stones = diamonds
-    .map((d) => `- [${stoneName(d)}](${abs(`/collection/${d.id}`)}): ${stoneSummary(d)}`)
+    .map((d) => `- [${stoneCode(d)} — ${stoneName(d)}](${abs(stonePath(d))}): ${stoneSummary(d)}`)
     .join("\n");
 
   const faq = FAQ.map((f) => `### ${f.q}\n${f.a}`).join("\n\n");
@@ -13,7 +13,7 @@ export function GET() {
 
 > ${SITE.description}
 
-BMG Exports is a diamond exporter. It supplies certified diamonds, including fancy blue stones, to jewellers, designers and collectors worldwide. Stones are graded by independent laboratories (GIA or IGI). Sales are by enquiry: there is no online checkout, and prices are quoted on request.
+BMG Exports is a diamond exporter. It supplies certified diamonds, including blue stones, to jewellers, designers and collectors worldwide. Stones are graded by independent laboratories (GIA or IGI). Sales are by enquiry: there is no online checkout, and prices are quoted on request.
 
 ## Contact
 - Email: ${CONTACT.email}
@@ -22,11 +22,13 @@ BMG Exports is a diamond exporter. It supplies certified diamonds, including fan
 ## Key pages
 - [Home](${abs("/")}): interactive anatomy of a diamond (table, crown, girdle, pavilion, culet) and entry points
 - [Collection](${abs("/collection")}): the stones currently listed, filterable by shape and carat
+${shapes.map((s) => `- [${s} diamonds](${abs(shapePath(s))}): every ${s.toLowerCase()} stone in stock`).join("\n")}
 - [FAQ](${abs("/faq")}): short answers about certification, shipping, the 4Cs and diamond anatomy
 - [About](${abs("/about")}): who BMG Exports is and how it works
 - [Contact / enquiry](${abs("/contact")}): send an enquiry; accepts an optional stone reference
 
 ## Current stones
+Each stone has a permanent stock number, BMG-<shape code>-<number> (for example BMG-RAD-0001: radiant, stone no. 1). Quote it in any enquiry. Its page is /collection/<shape>/<stock number>.
 ${stones}
 
 ## Machine-readable data
@@ -34,7 +36,7 @@ ${stones}
 - [Sitemap](${abs("/sitemap.xml")})
 
 ## How to act on this site
-- To enquire about a stone, open \`${abs("/contact")}?stone=<stone id>\`, for example \`${abs("/contact")}?stone=${diamonds[0]?.id ?? "bmg-001"}\`, and submit the form. The user should confirm before anything is sent.
+- To enquire about a stone, open \`${abs("/contact")}?stone=<stock number>\`, for example \`${abs("/contact")}?stone=${diamonds[0] ? stoneCode(diamonds[0]) : "BMG-RAD-0001"}\`, and submit the form. The user should confirm before anything is sent.
 - Pages expose WebMCP tools (list_diamonds, get_diamond, start_enquiry) to browser agents that support it.
 
 ## Frequently asked questions
