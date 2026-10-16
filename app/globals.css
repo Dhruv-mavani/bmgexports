@@ -79,7 +79,43 @@ body {
   animation: glow-pulse 2.2s ease-in-out infinite;
 }
 
+/* Footer: the company name drifts sideways behind the content. Moves by exactly half the track
+   (one of its two identical segments), so the loop never jumps. */
+@keyframes marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.marquee-track {
+  will-change: transform;
+}
+
+.marquee-left {
+  animation: marquee-left 70s linear infinite;
+}
+
+.marquee-right {
+  animation: marquee-right 90s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .marquee-left,
+  .marquee-right {
+    animation: none;
+  }
   .preloader-logo,
   .preloader-glow {
     animation: none;

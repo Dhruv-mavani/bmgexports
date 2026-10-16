@@ -57,7 +57,14 @@ const siteSchema = {
       slogan: SITE.tagline,
       knowsAbout: ["Diamonds", "Certified diamonds", "Fancy blue diamonds", "Diamond export", "GIA and IGI grading"],
       email: CONTACT.email,
-      address: { "@type": "PostalAddress", streetAddress: CONTACT.addressLines.join(", ") },
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: CONTACT.street.join(", "),
+        addressLocality: CONTACT.locality,
+        addressRegion: CONTACT.region,
+        postalCode: CONTACT.postalCode,
+        addressCountry: CONTACT.country,
+      },
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "sales",

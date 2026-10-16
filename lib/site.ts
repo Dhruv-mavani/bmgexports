@@ -19,10 +19,18 @@ export const SITE = {
   ],
 } as const;
 
+const STREET = ["Plot No. 29, 2nd Floor", "Near Mini Bazar", "Opposite Kamla Estate"] as const;
+
 export const CONTACT = {
   email: "vasugodhani651@gmail.com",
-  // Street address as given by the owner. City, state and PIN code are not yet known.
-  addressLines: ["Plot No. 29, 2nd Floor", "Near Mini Bazar", "Opposite Kamla Estate"],
+  street: STREET,
+  // City and state were derived from the owner's PIN code (395006, Varachha, Surat); confirm with the owner.
+  locality: "Surat",
+  region: "Gujarat",
+  postalCode: "395006",
+  country: "IN",
+  /** Display lines, in order. */
+  addressLines: [...STREET, "Surat, Gujarat 395006", "India"],
 } as const;
 
 export const abs = (path: string) => new URL(path, SITE.url).toString();
