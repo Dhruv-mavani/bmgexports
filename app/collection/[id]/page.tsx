@@ -15,7 +15,7 @@ export async function generateMetadata(props: PageProps<"/collection/[id]">): Pr
   const d = getDiamond(id);
   if (!d) return { title: "Stone not found", robots: { index: false } };
   const name = `${stoneName(d)} Diamond`;
-  const description = `${name}: ${stoneSummary(d)}. Enquire with BGM Exports for availability and pricing.`;
+  const description = `${name}: ${stoneSummary(d)}. Enquire with BMG Exports for availability and pricing.`;
   return {
     title: name,
     description,

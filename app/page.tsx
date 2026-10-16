@@ -12,9 +12,9 @@ const trust = [
 ];
 
 export const metadata: Metadata = {
-  title: { absolute: "BGM Exports — Certified Diamonds, Exported Worldwide" },
+  title: { absolute: "BMG Exports — Certified Diamonds, Exported Worldwide" },
   description:
-    "Certified diamonds, including fancy blue stones, supplied to jewellers, designers and collectors worldwide. Explore the anatomy of a diamond and send an enquiry to BGM Exports.",
+    "Certified diamonds, including fancy blue stones, supplied to jewellers, designers and collectors worldwide. Explore the anatomy of a diamond and send an enquiry to BMG Exports.",
   alternates: { canonical: "/" },
 };
 

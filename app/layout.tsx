@@ -52,7 +52,7 @@ const siteSchema = {
       "@id": `${abs("/")}#organization`,
       name: SITE.name,
       url: abs("/"),
-      logo: { "@type": "ImageObject", url: abs("/images/logo.png"), width: 1037, height: 366 },
+      logo: { "@type": "ImageObject", url: abs("/images/logo.png"), width: 1072, height: 385 },
       description: SITE.description,
       slogan: SITE.tagline,
       knowsAbout: ["Diamonds", "Certified diamonds", "Fancy blue diamonds", "Diamond export", "GIA and IGI grading"],

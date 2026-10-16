@@ -20,9 +20,9 @@ export const shapes: Shape[] = ["Radiant", "Cushion", "Oval"];
 
 // Photos are real. Carat, colour and clarity are the owner's figures; cut and certificate are not yet supplied.
 export const diamonds: Diamond[] = [
-  { id: "bgm-001", shape: "Radiant", carat: 1.324, color: "H", clarity: "VS1", image: "/images/radiant-up.jpg", sheet: "/images/radiant-sheet.jpg", featured: true },
-  { id: "bgm-002", shape: "Cushion", carat: 1.004, color: "J", clarity: "VS2", image: "/images/cushion-up.jpg", sheet: "/images/cushion-sheet.jpg", featured: true },
-  { id: "bgm-003", shape: "Oval", carat: 1.563, color: "L", clarity: "VS1", image: "/images/oval-up.jpg", sheet: "/images/oval-sheet.jpg", featured: true },
+  { id: "bmg-001", shape: "Radiant", carat: 1.324, color: "H", clarity: "VS1", image: "/images/radiant-up.jpg", sheet: "/images/radiant-sheet.jpg", featured: true },
+  { id: "bmg-002", shape: "Cushion", carat: 1.004, color: "J", clarity: "VS2", image: "/images/cushion-up.jpg", sheet: "/images/cushion-sheet.jpg", featured: true },
+  { id: "bmg-003", shape: "Oval", carat: 1.563, color: "L", clarity: "VS1", image: "/images/oval-up.jpg", sheet: "/images/oval-sheet.jpg", featured: true },
 ];
 
 export const fmtCarat = (n: number) => n.toFixed(3);

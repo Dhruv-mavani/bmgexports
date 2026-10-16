@@ -50,9 +50,9 @@ export default function Preloader() {
         <div className="preloader-glow absolute h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(74,140,255,0.7)_0%,rgba(31,79,216,0.35)_40%,transparent_70%)] blur-2xl sm:h-[28rem] sm:w-[28rem]" />
         <Image
           src="/images/logo.png"
-          alt="BGM Exports"
-          width={1037}
-          height={366}
+          alt="BMG Exports"
+          width={1072}
+          height={385}
           priority
           className="preloader-logo relative w-44 [filter:brightness(0)_invert(1)] sm:w-72"
         />

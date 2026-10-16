@@ -18,8 +18,8 @@ export default function Navbar() {
     <header className="sticky top-0 z-30 border-b border-mist bg-white sm:bg-white/90 sm:backdrop-blur">
       {/* Fixed 64px bar (+1px border): the home-page scroll scene positions itself against this height. */}
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Main">
-        <Link href="/" aria-label="BGM Exports home" onClick={() => setOpen(false)}>
-          <Image src="/images/logo.png" alt="BGM Exports" width={1037} height={366} className="h-8 w-auto sm:h-10" priority />
+        <Link href="/" aria-label="BMG Exports home" onClick={() => setOpen(false)}>
+          <Image src="/images/logo.png" alt="BMG Exports" width={1072} height={385} className="h-8 w-auto sm:h-10" priority />
         </Link>
 
         <ul className="hidden items-center gap-8 text-sm tracking-wide text-navy sm:flex">

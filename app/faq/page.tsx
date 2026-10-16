@@ -7,7 +7,7 @@ import { abs, FAQ } from "@/lib/site";
 export const metadata: Metadata = {
   title: "FAQ — Diamonds, the 4Cs and Buying",
   description:
-    "Answers about buying certified diamonds from BGM Exports: certification, shipping, the 4Cs (cut, colour, clarity, carat), fancy blue diamonds and the parts of a diamond.",
+    "Answers about buying certified diamonds from BMG Exports: certification, shipping, the 4Cs (cut, colour, clarity, carat), fancy blue diamonds and the parts of a diamond.",
   alternates: { canonical: "/faq" },
 };
 

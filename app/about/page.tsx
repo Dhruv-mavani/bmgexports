@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
-  title: "About BGM Exports",
+  title: "About BMG Exports",
   description:
-    "BGM Exports supplies certified diamonds to jewellers, designers and collectors worldwide, with honest grading, careful selection and responsible sourcing.",
+    "BMG Exports supplies certified diamonds to jewellers, designers and collectors worldwide, with honest grading, careful selection and responsible sourcing.",
   alternates: { canonical: "/about" },
 };
 
@@ -18,10 +18,10 @@ export default function AboutPage() {
   return (
     <>
       <section className="mx-auto max-w-6xl px-4 sm:px-6 py-20">
-        <SectionHeading level={1} eyebrow="About" title="The BGM Exports story" />
+        <SectionHeading level={1} eyebrow="About" title="The BMG Exports story" />
         <div className="mx-auto mt-10 max-w-2xl space-y-5 text-slate">
           <p>
-            BGM Exports supplies certified natural diamonds to jewellers, designers and collectors around the world.
+            BMG Exports supplies certified natural diamonds to jewellers, designers and collectors around the world.
             We combine careful selection with a straightforward, personal way of doing business.
           </p>
           <p>

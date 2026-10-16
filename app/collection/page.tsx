@@ -8,7 +8,7 @@ import { abs } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Collection — Certified Blue Diamonds",
   description:
-    "Browse certified blue diamonds from BGM Exports in radiant, cushion and oval cuts. Filter by shape and carat, then enquire about any stone.",
+    "Browse certified blue diamonds from BMG Exports in radiant, cushion and oval cuts. Filter by shape and carat, then enquire about any stone.",
   alternates: { canonical: "/collection" },
 };
 
@@ -21,7 +21,7 @@ export default function CollectionPage() {
           "@graph": [
             {
               "@type": "CollectionPage",
-              name: "BGM Exports diamond collection",
+              name: "BMG Exports diamond collection",
               url: abs("/collection"),
               mainEntity: {
                 "@type": "ItemList",

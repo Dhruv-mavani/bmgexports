@@ -6,7 +6,7 @@ import { CONTACT } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact & Enquiries",
-  description: "Send an enquiry to BGM Exports about a certified diamond. Tell us what you are looking for and we will reply with availability and pricing.",
+  description: "Send an enquiry to BMG Exports about a certified diamond. Tell us what you are looking for and we will reply with availability and pricing.",
   alternates: { canonical: "/contact" },
 };
 

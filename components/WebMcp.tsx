@@ -37,7 +37,7 @@ const summarise = (d: (typeof diamonds)[number]) => ({
 const tools: Tool[] = [
   {
     name: "list_diamonds",
-    description: "List the diamonds in the BGM Exports collection, optionally filtered by shape and carat weight.",
+    description: "List the diamonds in the BMG Exports collection, optionally filtered by shape and carat weight.",
     inputSchema: {
       type: "object",
       properties: {
@@ -55,7 +55,7 @@ const tools: Tool[] = [
   },
   {
     name: "get_diamond",
-    description: "Get the full details of one diamond by its id (for example bgm-001).",
+    description: "Get the full details of one diamond by its id (for example bmg-001).",
     inputSchema: { type: "object", properties: { id: { type: "string", description: "Stone id" } }, required: ["id"] },
     execute: (args) => {
       const d = diamonds.find((x) => x.id === args.id);

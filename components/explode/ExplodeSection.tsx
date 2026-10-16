@@ -129,7 +129,7 @@ export default function ExplodeSection() {
       {/* The pinned scene only shows one stage at a time. This keeps the whole story (and the page's
           single <h1>) in the document for search engines, screen readers and AI agents. */}
       <div className="sr-only">
-        <h1>BGM Exports: {stages[0].title}</h1>
+        <h1>BMG Exports: {stages[0].title}</h1>
         <p>{stages[0].body}</p>
         <h2>Anatomy of a diamond</h2>
         <ol>

@@ -1,11 +1,11 @@
 // Single source of truth for site-wide facts used by metadata, structured data and llms.txt.
 
 export const SITE = {
-  name: "BGM Exports",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://bgmexports.vercel.app",
+  name: "BMG Exports",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://bmgexports.vercel.app",
   tagline: "Brilliance, exported with integrity.",
   description:
-    "BGM Exports supplies certified diamonds, selected with care and delivered to jewellers, designers and collectors worldwide. Browse the collection and send an enquiry.",
+    "BMG Exports supplies certified diamonds, selected with care and delivered to jewellers, designers and collectors worldwide. Browse the collection and send an enquiry.",
   keywords: [
     "certified diamonds",
     "diamond exporter",
@@ -15,7 +15,7 @@ export const SITE = {
     "IGI certified diamonds",
     "wholesale diamonds",
     "loose diamonds",
-    "BGM Exports",
+    "BMG Exports",
   ],
 } as const;
 
@@ -38,15 +38,15 @@ export const abs = (path: string) => new URL(path, SITE.url).toString();
 // Plain-language gemology answers, reused by the FAQ page, its structured data and llms.txt.
 export const FAQ: { q: string; a: string }[] = [
   {
-    q: "What does BGM Exports sell?",
-    a: "BGM Exports supplies certified diamonds to jewellers, designers and collectors worldwide. You can browse the collection online and send an enquiry for availability and pricing.",
+    q: "What does BMG Exports sell?",
+    a: "BMG Exports supplies certified diamonds to jewellers, designers and collectors worldwide. You can browse the collection online and send an enquiry for availability and pricing.",
   },
   {
     q: "Are your diamonds certified?",
     a: "Yes. Every stone we offer is graded by an independent gemological laboratory, GIA or IGI, and the certificate is listed with the stone.",
   },
   {
-    q: "How do I buy a diamond from BGM Exports?",
+    q: "How do I buy a diamond from BMG Exports?",
     a: "Choose a stone in the collection and press 'Enquire about this stone', or use the contact page to describe what you need. We reply with availability and pricing.",
   },
   {

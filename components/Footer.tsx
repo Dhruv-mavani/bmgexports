@@ -57,7 +57,7 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-4 pb-8 pt-16 sm:px-6 sm:pb-10 sm:pt-24">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1.2fr] md:gap-10">
           <div>
-            <Image src="/images/logo-white.png" alt={SITE.name} width={1037} height={366} className="h-14 w-auto sm:h-16" />
+            <Image src="/images/logo-white.png" alt={SITE.name} width={1072} height={385} className="h-14 w-auto sm:h-16" />
             <p className="mt-5 max-w-xs font-serif text-2xl leading-snug text-white sm:text-3xl">{SITE.tagline}</p>
             <p className="mt-3 max-w-xs text-sm text-white/65">Certified diamonds, selected with care and delivered worldwide.</p>
             <Link

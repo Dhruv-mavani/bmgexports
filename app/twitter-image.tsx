@@ -3,7 +3,7 @@ import path from "node:path";
 import { ImageResponse } from "next/og";
 import { SITE } from "@/lib/site";
 
-export const alt = "BGM Exports — certified diamonds, exported with integrity";
+export const alt = "BMG Exports — certified diamonds, exported with integrity";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -24,7 +24,7 @@ export default async function TwitterImage() {
           background: "radial-gradient(circle at 50% 45%, #1f4fd8 0%, #0f2a52 55%, #0a1c38 100%)",
         }}
       >
-        <img src={src} width={560} height={198} alt="" />
+        <img src={src} width={560} height={201} alt="" />
         <div style={{ marginTop: 40, fontSize: 36, color: "#dce8fa", letterSpacing: 2 }}>{SITE.tagline}</div>
       </div>
     ),

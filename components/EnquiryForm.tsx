@@ -32,7 +32,7 @@ export default function EnquiryForm() {
         body: JSON.stringify({
           ...fields,
           access_key: ACCESS_KEY,
-          from_name: "BGM Exports website",
+          from_name: "BMG Exports website",
           subject: `New enquiry from ${fields.name}${fields.stone ? ` — ${fields.stone}` : ""}`,
         }),
       });
@@ -60,7 +60,7 @@ export default function EnquiryForm() {
       onSubmit={onSubmit}
       className="space-y-5"
       // WebMCP: lets browser agents discover this form as a tool (the user still reviews and sends it).
-      {...{ toolname: "send_enquiry", tooldescription: "Send an enquiry to BGM Exports about a diamond. Requires name, email and message; stone is an optional stone id such as bgm-001." }}
+      {...{ toolname: "send_enquiry", tooldescription: "Send an enquiry to BMG Exports about a diamond. Requires name, email and message; stone is an optional stone id such as bmg-001." }}
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block text-sm">
