@@ -26,6 +26,7 @@ function Cta() {
 
 export default function ExplodeSection() {
   const wrapper = useRef<HTMLDivElement>(null);
+  const pin = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
   const labels = useRef<(HTMLDivElement | null)[]>([]);
   const [stage, setStage] = useState(0);
@@ -58,7 +59,9 @@ export default function ExplodeSection() {
     // the latest value; React state is only touched once per frame, and only when the stage changes.
     const compute = () => {
       const rect = el.getBoundingClientRect();
-      const travel = rect.height - (window.innerHeight - NAV_HEIGHT);
+      // Use the pinned box's own (svh-based) height, not window.innerHeight: on phones innerHeight changes
+      // as the address bar collapses, which would make progress jump mid-scroll.
+      const travel = rect.height - (pin.current?.offsetHeight ?? window.innerHeight - NAV_HEIGHT);
       const p = Math.min(1, Math.max(0, (NAV_HEIGHT - rect.top) / travel));
       progress.current = p;
       if (bar.current) bar.current.style.height = `${p * 100}%`;
@@ -110,8 +113,6 @@ export default function ExplodeSection() {
     );
   }
 
-  const current = stages[stage];
-
   return (
     <section ref={wrapper} className="relative h-[500vh] border-b border-mist bg-gradient-to-b from-ice via-white to-white" aria-label="Anatomy of a diamond">
       {/* The pinned scene only shows one stage at a time. This keeps the whole story (and the page's
@@ -130,6 +131,7 @@ export default function ExplodeSection() {
         <p>{stages[stages.length - 1].body}</p>
       </div>
       <div
+        ref={pin}
         className="sticky top-[65px] mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] px-4 sm:px-6 md:grid-cols-2 md:grid-rows-1 md:items-center md:gap-8"
         style={{ height: `calc(100svh - ${NAV_HEIGHT}px)` }}
       >
@@ -151,15 +153,25 @@ export default function ExplodeSection() {
           </div>
         </div>
 
-        <div className="pb-8 md:order-1 md:pb-0" aria-live="polite">
-          <p className="text-xs uppercase tracking-[0.3em] text-royal">{current.eyebrow}</p>
-          <h2 key={current.title} className="fade-up mt-3 font-serif text-[2rem] leading-tight text-navy sm:text-5xl lg:text-6xl">
-            {current.title}
-          </h2>
-          <p key={current.body} className="fade-up mt-3 max-w-md text-sm text-slate sm:mt-4 sm:text-base">
-            {current.body}
-          </p>
-          {current.cta && <Cta />}
+        {/* Every stage's text sits in the same grid cell, so the panel is always as tall as the tallest
+            stage. The canvas next to it therefore never changes size while scrolling (no jumping). */}
+        <div className="grid pb-6 md:order-1 md:pb-0" aria-live="polite">
+          {stages.map((st, i) => (
+            <div
+              key={st.title}
+              inert={i !== stage}
+              aria-hidden={i !== stage}
+              // Outgoing text leaves fast; incoming text waits a beat, so two stages never overlap.
+              className={`col-start-1 row-start-1 transition-[opacity,transform] ease-out ${
+                i === stage ? "translate-y-0 opacity-100 delay-150 duration-300" : "pointer-events-none translate-y-3 opacity-0 duration-150"
+              }`}
+            >
+              <p className="text-xs uppercase tracking-[0.3em] text-royal">{st.eyebrow}</p>
+              <h2 className="mt-3 font-serif text-[2rem] leading-tight text-navy sm:text-5xl lg:text-6xl">{st.title}</h2>
+              <p className="mt-3 max-w-md text-sm text-slate sm:mt-4 sm:text-base">{st.body}</p>
+              {st.cta && <Cta />}
+            </div>
+          ))}
         </div>
 
         <div className="absolute inset-y-[15%] right-3 hidden w-px bg-mist md:block" aria-hidden>
