@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { memo, Suspense, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { buildBrilliant } from "./brilliantGeometry";
@@ -94,7 +94,7 @@ function Diamond({
   mobile: boolean;
   active: boolean;
 }) {
-  const { camera, size, gl, invalidate, setDpr } = useThree();
+  const { camera, size, gl, invalidate } = useThree();
   const envMap = useMemo(() => buildStudioEnv(gl), [gl]);
   const shadowMap = useShadowTexture();
   const geo = useMemo(() => buildBrilliant(), []);
@@ -113,31 +113,19 @@ function Diamond({
     if (active) invalidate();
   }, [active, invalidate]);
 
-  // Phones: render on demand (not 60 times a second) and trade resolution for smoothness while the
-  // page is moving, then re-render at full sharpness a moment after scrolling stops.
+  // Phones render on demand: ask for a frame on every scroll/resize while the scene is on screen.
   useEffect(() => {
     if (!mobile) return;
-    const sharp = Math.min(window.devicePixelRatio || 1, 2);
-    let timer: ReturnType<typeof setTimeout>;
     const onScroll = () => {
-      if (!activeRef.current) return;
-      setDpr(1);
-      invalidate();
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        setDpr(sharp);
-        invalidate();
-      }, 140);
+      if (activeRef.current) invalidate();
     };
-    setDpr(sharp);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
-      clearTimeout(timer);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [mobile, invalidate, setDpr]);
+  }, [mobile, invalidate]);
 
   useFrame((state) => {
     const p = progress.current ?? 0;
@@ -200,7 +188,7 @@ function Diamond({
   );
 }
 
-export default function DiamondScene({
+function DiamondScene({
   progress,
   labels,
   active,
@@ -213,14 +201,16 @@ export default function DiamondScene({
 }) {
   // Decided once on the client (this component never renders on the server).
   const [mobile] = useState(() => window.matchMedia("(max-width: 767px), (pointer: coarse)").matches);
+  // One fixed resolution (switching it while scrolling clears the canvas and flickers).
+  const [phoneDpr] = useState(() => Math.min(window.devicePixelRatio || 1, 1.75));
 
   return (
     <Canvas
       camera={{ position: [0, 0, 6.5], fov: 35 }}
-      dpr={mobile ? 1 : [1, 1.75]}
+      dpr={mobile ? phoneDpr : [1, 1.75]}
       // Phones stay in on-demand mode permanently (switching modes later can swallow the first frame request).
       frameloop={mobile ? "demand" : active ? "always" : "never"}
-      gl={{ alpha: true, antialias: !mobile, toneMapping: THREE.NoToneMapping }}
+      gl={{ alpha: true, antialias: true, toneMapping: THREE.NoToneMapping }}
     >
       <Suspense fallback={null}>
         <Diamond progress={progress} labels={labels} onReady={onReady} mobile={mobile} active={active} />
@@ -228,3 +218,6 @@ export default function DiamondScene({
     </Canvas>
   );
 }
+
+// Memoised: the parent re-renders on every stage change, which must not re-render (and reconfigure) the canvas.
+export default memo(DiamondScene);
