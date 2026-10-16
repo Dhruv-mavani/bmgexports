@@ -116,19 +116,38 @@ function Diamond({
   // Phones render on demand: ask for a frame on every scroll/resize while the scene is on screen.
   useEffect(() => {
     if (!mobile) return;
+    let settle: ReturnType<typeof setTimeout>;
     const onScroll = () => {
-      if (activeRef.current) invalidate();
+      if (!activeRef.current) return;
+      invalidate();
+      // Scroll events can stop a frame before the final position (momentum scrolling), which would leave the
+      // stone and labels mid-fade. One more frame shortly after the last event guarantees the end state.
+      clearTimeout(settle);
+      settle = setTimeout(invalidate, 120);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
+      clearTimeout(settle);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
   }, [mobile, invalidate]);
 
-  useFrame((state) => {
-    const p = progress.current ?? 0;
+  // Phones: the scene eases toward the scroll position instead of snapping to it, which hides uneven
+  // scroll-event timing and the odd slow frame. (Desktop already redraws every frame.)
+  const eased = useRef<number | null>(null);
+
+  useFrame((state, delta) => {
+    const target = progress.current ?? 0;
+    let p = target;
+    if (mobile) {
+      if (eased.current === null) eased.current = target; // start at the current position, not at 0
+      eased.current += (target - eased.current) * (1 - Math.exp(-Math.min(delta, 0.1) * 9));
+      if (Math.abs(target - eased.current) > 0.0004) invalidate(); // keep drawing until we have arrived
+      else eased.current = target;
+      p = eased.current;
+    }
     const e = ramp(0.1, 0.28, p) - ramp(0.8, 0.9, p);
     // Narrow canvases (phones) can't fit a full-size stone: shrink it to the available width.
     const cam = state.camera as THREE.PerspectiveCamera;

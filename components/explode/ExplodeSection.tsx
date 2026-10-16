@@ -144,10 +144,10 @@ export default function ExplodeSection() {
               <div
                 key={name}
                 ref={(el) => void (labels.current[i] = el)}
-                className="absolute left-0 top-0 flex items-center gap-1.5 whitespace-nowrap opacity-0 md:gap-2"
+                className="absolute left-0 top-0 flex items-center gap-1.5 whitespace-nowrap opacity-0 [will-change:opacity,transform] md:gap-2"
               >
-                <span className="h-px w-3 bg-royal md:w-5" />
-                <span className="text-[10px] uppercase tracking-[0.12em] text-navy md:text-[11px] md:tracking-[0.18em]">{name}</span>
+                <span className="h-px w-3 bg-navy md:w-5" />
+                <span className="bg-white/80 px-1 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-navy md:bg-transparent md:p-0 md:text-[11px] md:font-normal md:tracking-[0.18em]">{name}</span>
               </div>
             ))}
           </div>
