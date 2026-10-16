@@ -181,7 +181,9 @@ function Diamond({
       // Project the part's world position to screen space so the DOM label tracks it.
       v.set(shiftX + 1.15 * scale, (part.y + part.lift * e) * scale + 0.1, 0).project(camera);
       el.style.transform = `translate(${(v.x * 0.5 + 0.5) * size.width}px, ${(-v.y * 0.5 + 0.5) * size.height}px) translateY(-50%)`;
-      el.style.opacity = String(clamp01((e - 0.25 - i * 0.08) / 0.3));
+      const o = clamp01((e - 0.25 - i * 0.08) / 0.3);
+      el.style.opacity = String(o);
+      el.style.visibility = o < 0.02 ? "hidden" : "visible"; // no faint ghosts when (nearly) transparent
     });
 
     if (shadow.current) shadow.current.material.opacity = 0.4 * (1 - e);

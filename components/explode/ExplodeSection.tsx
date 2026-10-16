@@ -65,6 +65,17 @@ export default function ExplodeSection() {
       const p = Math.min(1, Math.max(0, (NAV_HEIGHT - rect.top) / travel));
       progress.current = p;
       if (bar.current) bar.current.style.height = `${p * 100}%`;
+      // The labels only belong to the open stone. Whenever the scroll position is in a closed zone, hide
+      // them right here instead of waiting for the 3D scene's next frame (a skipped frame must never
+      // leave them half visible).
+      if (p < 0.1 || p > 0.9) {
+        for (const el of labels.current) {
+          if (el) {
+            el.style.opacity = "0";
+            el.style.visibility = "hidden";
+          }
+        }
+      }
     };
     const update = () => {
       raf = 0;
