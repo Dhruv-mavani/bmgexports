@@ -5,6 +5,11 @@ import { useSearchParams } from "next/navigation";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
+// Web3Forms emails the enquiry to the account owner. Its access key is designed to be used in the browser,
+// but it lives in an environment variable so it is not committed to the repository.
+const WEB3FORMS_URL = "https://api.web3forms.com/submit";
+const ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+
 const field =
   "mt-2 w-full border border-mist bg-white px-4 py-3 text-navy outline-none transition-colors focus:border-royal";
 
@@ -19,13 +24,20 @@ export default function EnquiryForm() {
     setStatus("sending");
     setError("");
     try {
-      const res = await fetch("/api/enquiry", {
+      if (!ACCESS_KEY) throw new Error("The enquiry form is not set up yet. Please email us directly.");
+      const fields = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      const res = await fetch(WEB3FORMS_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          ...fields,
+          access_key: ACCESS_KEY,
+          from_name: "BGM Exports website",
+          subject: `New enquiry from ${fields.name}${fields.stone ? ` — ${fields.stone}` : ""}`,
+        }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error ?? "Something went wrong.");
+      if (!res.ok || !data.success) throw new Error(data.message ?? "Something went wrong. Please try again or email us.");
       form.reset();
       setStatus("sent");
     } catch (err) {
@@ -70,6 +82,8 @@ export default function EnquiryForm() {
           <input name="stone" defaultValue={stone} maxLength={50} className={field} />
         </label>
       </div>
+      {/* Honeypot: real visitors never see or tick this; bots that fill every field get filtered out. */}
+      <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden />
       <label className="block text-sm">
         Message
         <textarea name="message" required rows={5} maxLength={2000} className={field} />
