@@ -1,8 +1,5 @@
-"use client";
-
-import { useMemo, useState } from "react";
 import Link from "next/link";
-import { type Diamond, type Shape, shapes } from "@/data/diamonds";
+import type { Diamond } from "@/data/diamonds";
 import DiamondCard from "./DiamondCard";
 
 interface FeaturedStonesSectionProps {
@@ -10,22 +7,6 @@ interface FeaturedStonesSectionProps {
 }
 
 export default function FeaturedStonesSection({ initialDiamonds }: FeaturedStonesSectionProps) {
-  const [selectedShape, setSelectedShape] = useState<Shape | "All">("All");
-
-  const filtered = useMemo(() => {
-    if (selectedShape === "All") return initialDiamonds;
-    return initialDiamonds.filter((d) => d.shape === selectedShape);
-  }, [selectedShape, initialDiamonds]);
-
-  // Compute counts per shape
-  const counts = useMemo(() => {
-    const map: Record<string, number> = { All: initialDiamonds.length };
-    for (const d of initialDiamonds) {
-      map[d.shape] = (map[d.shape] || 0) + 1;
-    }
-    return map;
-  }, [initialDiamonds]);
-
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-white via-ice/20 to-white py-24 sm:py-28 border-y border-mist/70">
       {/* Ambient diamond luster background highlight */}
@@ -59,48 +40,10 @@ export default function FeaturedStonesSection({ initialDiamonds }: FeaturedStone
           </div>
         </header>
 
-        {/* Minimalist Shape Filter Tabs */}
-        <nav aria-label="Filter featured stones by shape" className="mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-          <button
-            type="button"
-            onClick={() => setSelectedShape("All")}
-            className={`cursor-pointer px-4 py-2 text-xs uppercase tracking-[0.2em] transition-all ${
-              selectedShape === "All"
-                ? "bg-navy text-white shadow-xs font-medium"
-                : "border border-mist bg-white text-slate hover:border-royal/50 hover:text-navy"
-            }`}
-          >
-            All Cuts <span className="ml-1 text-[10px] opacity-75">({counts.All})</span>
-          </button>
-
-          {shapes.map((s) => {
-            const count = counts[s] || 0;
-            if (count === 0) return null;
-            return (
-              <button
-                key={s}
-                type="button"
-                onClick={() => setSelectedShape(s)}
-                className={`cursor-pointer px-4 py-2 text-xs uppercase tracking-[0.2em] transition-all ${
-                  selectedShape === s
-                    ? "bg-navy text-white shadow-xs font-medium"
-                    : "border border-mist bg-white text-slate hover:border-royal/50 hover:text-navy"
-                }`}
-              >
-                {s} <span className="ml-1 text-[10px] opacity-75">({count})</span>
-              </button>
-            );
-          })}
-        </nav>
-
         {/* Grid of Vitrine Stones */}
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((diamond, idx) => (
-            <DiamondCard
-              key={diamond.id}
-              diamond={diamond}
-              priority={idx === 0}
-            />
+          {initialDiamonds.map((diamond, idx) => (
+            <DiamondCard key={diamond.id} diamond={diamond} priority={idx === 0} />
           ))}
         </div>
 
