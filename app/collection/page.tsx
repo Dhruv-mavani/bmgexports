@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import CollectionTabs from "@/components/CollectionTabs";
 import JsonLd from "@/components/JsonLd";
 import FilterableGrid from "@/components/FilterableGrid";
 import LabGrownNotice from "@/components/LabGrownNotice";
@@ -48,6 +49,9 @@ export default function CollectionPage() {
       />
     <section className="mx-auto max-w-6xl px-4 sm:px-6 py-20">
       <SectionHeading level={1} eyebrow="Collection" title="Diamonds in stock" intro="Filter by shape and size to find your stone." />
+      <div className="mt-10">
+        <CollectionTabs current="all" />
+      </div>
       <LabGrownNotice className="mx-auto mt-8 max-w-3xl" />
       <nav aria-label="Browse by shape" className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
         <span className="w-full text-center text-[11px] uppercase tracking-[0.25em] text-slate sm:w-auto">Browse by shape</span>

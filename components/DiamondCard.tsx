@@ -81,17 +81,13 @@ export default function DiamondCard({ diamond, priority = false }: DiamondCardPr
             <p className="mt-1 text-xs text-slate tracking-wide">
               {[diamond.color && `Colour ${diamond.color}`, diamond.clarity].filter(Boolean).join(" · ")}
             </p>
-            {/* Origin and certification are always spelled out when recorded (lab-grown stones must be labelled). */}
-            {(originLabel(diamond) || certificationLabel(diamond)) && (
-              <ul className="mt-3 flex flex-wrap gap-1.5">
-                {originLabel(diamond) && (
-                  <li className="border border-navy/40 bg-navy/5 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.15em] text-navy">{originLabel(diamond)}</li>
-                )}
-                {certificationLabel(diamond) && (
-                  <li className="border border-mist bg-ice px-2 py-0.5 text-[9px] uppercase tracking-[0.15em] text-royal">{certificationLabel(diamond)}</li>
-                )}
-              </ul>
-            )}
+            {/* Origin (when lab-grown) and certification status are always spelled out. */}
+            <ul className="mt-3 flex flex-wrap gap-1.5">
+              {originLabel(diamond) && (
+                <li className="border border-navy/40 bg-navy/5 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.15em] text-navy">{originLabel(diamond)}</li>
+              )}
+              <li className="border border-mist bg-ice px-2 py-0.5 text-[9px] uppercase tracking-[0.15em] text-royal">{certificationLabel(diamond)}</li>
+            </ul>
             <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-slate/70">{stoneCode(diamond)}</p>
           </Link>
         </div>

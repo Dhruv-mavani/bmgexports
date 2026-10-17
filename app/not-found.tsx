@@ -49,7 +49,7 @@ export default function NotFound() {
         </h1>
         <p className="mt-4 max-w-md text-sm leading-relaxed text-slate sm:text-base">
           The link may be old, or the address mistyped. If you were looking for a particular stone, quote its stock number (for example
-          BMG-RAD-0001) and we&apos;ll find it for you.
+          BMG-0001) and we&apos;ll find it for you.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">

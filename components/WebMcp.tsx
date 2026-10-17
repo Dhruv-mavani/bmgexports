@@ -57,7 +57,7 @@ const tools: Tool[] = [
   },
   {
     name: "get_diamond",
-    description: "Get the full details of one diamond by its stock number (for example BMG-RAD-0001).",
+    description: "Get the full details of one diamond by its stock number (for example BMG-0001).",
     inputSchema: { type: "object", properties: { id: { type: "string", description: "Stone id" } }, required: ["id"] },
     execute: (args) => {
       const d = diamonds.find((x) => x.id === args.id);

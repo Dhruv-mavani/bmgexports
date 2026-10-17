@@ -53,7 +53,7 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Are your diamonds certified?",
-    a: diamonds.every((d) => d.nonCertified)
+    a: diamonds.every((d) => d.certification === "non-certified")
       ? "Not at the moment. The stones currently listed are sold non-certified, without a grading report, and each stone's page says so. Ask us in an enquiry about documentation for a particular stone."
       : "Some stones are sold non-certified, without a grading report, and a stone's page says when that is the case. Ask us in an enquiry about documentation for a particular stone.",
   },

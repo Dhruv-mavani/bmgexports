@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { diamonds, shapePath, shapes, stonePath } from "@/data/diamonds";
+import { certificationPath, certifications, diamonds, diamondsByCertification, shapePath, shapes, stonePath } from "@/data/diamonds";
 import { abs } from "@/lib/site";
 
 // Update when content changes meaningfully (kept static so the sitemap is fully prerendered).
@@ -16,6 +16,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...pages.map((p) => ({ url: abs(p.path), lastModified: LAST_MODIFIED, changeFrequency: "monthly" as const, priority: p.priority })),
+    ...certifications
+      .filter((c) => diamondsByCertification(c).length > 0)
+      .map((c) => ({ url: abs(certificationPath(c)), lastModified: LAST_MODIFIED, changeFrequency: "weekly" as const, priority: 0.85 })),
     ...shapes.map((s) => ({
       url: abs(shapePath(s)),
       lastModified: LAST_MODIFIED,

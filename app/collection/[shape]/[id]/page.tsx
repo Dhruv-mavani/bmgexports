@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import DiamondZoomViewer from "@/components/DiamondZoomViewer";
 import JsonLd from "@/components/JsonLd";
 import LabGrownNotice from "@/components/LabGrownNotice";
@@ -24,15 +24,12 @@ export function generateStaticParams() {
   return diamonds.map((d) => ({ shape: shapeSlug(d.shape), id: d.id }));
 }
 
-// A stone is only valid at /collection/<its own shape>/<its stock number>.
-function findStone(shape: string, id: string) {
-  const d = getDiamond(id);
-  return d && d.shape === getShapeBySlug(shape) ? d : undefined;
-}
+// The stone is identified by its stock number alone. The shape in the URL is only there for readability, so if it
+// is wrong (or the stone's shape was later corrected) the visitor is redirected to the right address.
 
 export async function generateMetadata(props: PageProps<"/collection/[shape]/[id]">): Promise<Metadata> {
-  const { shape, id } = await props.params;
-  const d = findStone(shape, id);
+  const { id } = await props.params;
+  const d = getDiamond(id);
   if (!d) return { title: "Stone not found", robots: { index: false } };
   const name = `${stoneName(d)} Diamond`;
   const description = `${name} (${stoneCode(d)}): ${stoneSummary(d)}. Enquire with ${SITE.name} for availability and pricing.`;
@@ -48,8 +45,9 @@ export async function generateMetadata(props: PageProps<"/collection/[shape]/[id
 // Awaiting params here (not inside <Suspense>) lets Next answer an unknown stone with a real 404 status.
 export default async function DiamondPage(props: PageProps<"/collection/[shape]/[id]">) {
   const { shape, id } = await props.params;
-  const d = findStone(shape, id);
+  const d = getDiamond(id);
   if (!d) notFound();
+  if (getShapeBySlug(shape) !== d.shape) permanentRedirect(stonePath(d));
 
   const code = stoneCode(d);
   const name = `${stoneName(d)} Diamond`;
@@ -61,7 +59,8 @@ export default async function DiamondPage(props: PageProps<"/collection/[shape]/
     ["Clarity", d.clarity],
     ...(d.cut ? [["Cut", d.cut]] : []),
     ...(originLabel(d) ? [["Origin", originLabel(d)!]] : []),
-    ...(certificationLabel(d) ? [["Certification", certificationLabel(d)!]] : []),
+    ["Certification", certificationLabel(d)],
+    ...(d.certificate?.number ? [["Report number", d.certificate.number]] : []),
   ];
 
   return (
@@ -87,7 +86,8 @@ export default async function DiamondPage(props: PageProps<"/collection/[shape]/
                 { "@type": "PropertyValue", name: "Clarity", value: d.clarity },
                 ...(d.cut ? [{ "@type": "PropertyValue", name: "Cut", value: d.cut }] : []),
                 ...(d.labGrown ? [{ "@type": "PropertyValue", name: "Origin", value: `Lab-grown (${d.labGrown})` }] : []),
-                ...(certificationLabel(d) ? [{ "@type": "PropertyValue", name: "Certification", value: certificationLabel(d) }] : []),
+                { "@type": "PropertyValue", name: "Certification", value: certificationLabel(d) },
+                ...(d.certificate?.number ? [{ "@type": "PropertyValue", name: "Report number", value: d.certificate.number }] : []),
               ],
             },
             {
@@ -160,16 +160,12 @@ export default async function DiamondPage(props: PageProps<"/collection/[shape]/
               <p className="mt-1 text-xs tracking-wide text-slate sm:text-sm">
                 {[d.color && `Colour ${d.color}`, `${d.clarity} clarity`].filter(Boolean).join(" · ")}
               </p>
-              {(originLabel(d) || certificationLabel(d)) && (
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {originLabel(d) && (
-                    <li className="border border-navy/40 bg-navy/5 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-navy">{originLabel(d)}</li>
-                  )}
-                  {certificationLabel(d) && (
-                    <li className="border border-mist bg-ice px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-royal">{certificationLabel(d)}</li>
-                  )}
-                </ul>
-              )}
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {originLabel(d) && (
+                  <li className="border border-navy/40 bg-navy/5 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-navy">{originLabel(d)}</li>
+                )}
+                <li className="border border-mist bg-ice px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-royal">{certificationLabel(d)}</li>
+              </ul>
 
               <dl className="mt-8 divide-y divide-mist/70 border border-mist/80 bg-white">
                 {specs.map(([k, v]) => (
