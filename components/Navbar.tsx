@@ -46,7 +46,7 @@ export default function Navbar() {
             />
           </Link>
           <span className="hidden lg:inline-flex items-center gap-1.5 border-l border-mist/80 pl-4 text-[9px] uppercase tracking-[0.25em] text-slate/80 font-mono">
-            <span className="text-[6px] text-royal">◆</span> Certified Diamonds
+            <span className="text-[6px] text-royal">◆</span> Lab-Grown Diamonds
           </span>
         </div>
 

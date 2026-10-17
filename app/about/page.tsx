@@ -5,14 +5,14 @@ import SectionHeading from "@/components/SectionHeading";
 export const metadata: Metadata = {
   title: "About BMG Exports",
   description:
-    "BMG Exports supplies diamonds to jewellers, designers and collectors worldwide, with careful selection and plain, honest descriptions of every stone.",
+    "BMG Exports supplies lab-grown diamonds to jewellers, designers and collectors worldwide, with careful selection and plain, honest descriptions of every stone.",
   alternates: { canonical: "/about" },
 };
 
 const values = [
-  { title: "Integrity", text: "Honest grading and transparent pricing on every stone." },
+  { title: "Integrity", text: "Plain descriptions and transparent pricing on every stone." },
   { title: "Craft", text: "Hand-selected for cut, brilliance and character." },
-  { title: "Responsibility", text: "Conflict-free sourcing with full traceability." },
+  { title: "Responsibility", text: "Every stone is labelled for what it is, lab-grown or otherwise." },
 ];
 
 export default function AboutPage() {
@@ -44,7 +44,7 @@ export default function AboutPage() {
             <div className="flex flex-col justify-center border border-mist/80 bg-white p-6 shadow-xs sm:p-10">
               <div className="space-y-5 text-base font-light leading-relaxed text-slate sm:text-lg">
                 <p>
-                  BMG Exports supplies diamonds to jewellers, designers and collectors around the world.
+                  BMG Exports supplies lab-grown diamonds to jewellers, designers and collectors around the world.
                   We combine careful selection with a straightforward, personal way of doing business.
                 </p>
                 <p>

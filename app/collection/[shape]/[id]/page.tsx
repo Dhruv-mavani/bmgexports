@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import DiamondZoomViewer from "@/components/DiamondZoomViewer";
 import JsonLd from "@/components/JsonLd";
+import LabGrownNotice from "@/components/LabGrownNotice";
 import {
   diamonds,
   fmtCarat,
@@ -180,7 +181,8 @@ export default async function DiamondPage(props: PageProps<"/collection/[shape]/
               </dl>
             </div>
 
-            <div className="mt-8 border-t border-mist/70 pt-6">
+            <div className="mt-8 space-y-4 border-t border-mist/70 pt-6">
+              <LabGrownNotice />
               <Link
                 href={`/contact?stone=${encodeURIComponent(code)}`}
                 className="block w-full bg-navy px-6 py-3.5 text-center text-xs uppercase tracking-[0.25em] text-white transition-all duration-300 hover:bg-royal hover:shadow-md sm:text-sm"

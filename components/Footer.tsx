@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { disclosureText } from "@/data/diamonds";
 import { CONTACT, SITE } from "@/lib/site";
 
 const links = [
@@ -59,7 +60,7 @@ export default function Footer() {
           <div>
             <Image src="/images/logo-white.png" alt={SITE.name} width={1072} height={385} className="h-14 w-auto sm:h-16" />
             <p className="mt-5 max-w-xs font-serif text-2xl leading-snug text-white sm:text-3xl">{SITE.tagline}</p>
-            <p className="mt-3 max-w-xs text-sm text-white/65">Certified diamonds, selected with care and delivered worldwide.</p>
+            <p className="mt-3 max-w-xs text-sm text-white/65">Lab-grown diamonds, selected with care and delivered worldwide.</p>
             <Link
               href="/contact"
               className="mt-7 inline-block bg-white px-6 py-3 text-xs uppercase tracking-[0.2em] text-navy transition-all duration-300 hover:bg-mist hover:shadow-lg hover:scale-[1.02] sm:px-8 sm:text-sm font-medium"
@@ -99,9 +100,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-2 border-t border-white/15 pt-6 text-xs text-white/55 sm:mt-20 sm:flex-row sm:items-center sm:justify-between">
+        {disclosureText() && (
+          <p className="mt-12 max-w-3xl text-xs leading-relaxed text-white/60 sm:mt-16">
+            <span className="mr-1.5 font-medium uppercase tracking-[0.2em] text-[#9cc4ff]">◆ Disclosure</span>
+            {disclosureText()}
+          </p>
+        )}
+
+        <div className="mt-8 flex flex-col gap-2 border-t border-white/15 pt-6 text-xs text-white/55 sm:mt-20 sm:flex-row sm:items-center sm:justify-between">
           <p>© {SITE.name}. All rights reserved.</p>
-          <p>Certified diamonds, exported with integrity.</p>
+          <p>Lab-grown diamonds, exported with integrity.</p>
         </div>
       </div>
     </footer>

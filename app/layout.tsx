@@ -15,7 +15,7 @@ const cormorant = Cormorant_Garamond({
   weight: ["400", "500", "600"],
 });
 
-const defaultTitle = `${SITE.name} — Certified Diamonds, Exported Worldwide`;
+const defaultTitle = `${SITE.name} — Lab-Grown Diamonds, Exported Worldwide`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),

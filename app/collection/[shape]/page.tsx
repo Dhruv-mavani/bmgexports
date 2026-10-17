@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import DiamondCard from "@/components/DiamondCard";
 import JsonLd from "@/components/JsonLd";
+import LabGrownNotice from "@/components/LabGrownNotice";
 import SectionHeading from "@/components/SectionHeading";
 import { diamondsOfShape, getShapeBySlug, shapePath, shapes, shapeSlug, stoneCode, stoneName, stonePath } from "@/data/diamonds";
 import { abs, SITE } from "@/lib/site";
@@ -77,6 +78,8 @@ export default async function ShapePage(props: PageProps<"/collection/[shape]">)
             title={`${shape} diamonds`}
             intro={`${stones.length} ${shape.toLowerCase()} cut ${stones.length === 1 ? "stone" : "stones"} currently listed.`}
           />
+
+          <LabGrownNotice className="mx-auto mt-8 max-w-3xl" />
 
           <nav aria-label="Browse by shape" className="mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <Link

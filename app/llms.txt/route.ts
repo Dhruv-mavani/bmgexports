@@ -1,4 +1,4 @@
-import { diamonds, shapePath, shapes, stoneCode, stoneName, stonePath, stoneSummary } from "@/data/diamonds";
+import { diamonds, disclosureText, shapePath, shapes, stoneCode, stoneName, stonePath, stoneSummary } from "@/data/diamonds";
 import { abs, CONTACT, FAQ, SITE } from "@/lib/site";
 
 // llms.txt: a plain-text guide for AI assistants (https://llmstxt.org).
@@ -13,7 +13,7 @@ export function GET() {
 
 > ${SITE.description}
 
-BMG Exports is a diamond exporter. It supplies diamonds in radiant, cushion, oval and princess cuts to jewellers, designers and collectors worldwide. Lab-grown stones (for example CVD) are always labelled as lab-grown, and a stone sold without a grading report is labelled non-certified. Sales are by enquiry: there is no online checkout, and prices are quoted on request.
+BMG Exports is a diamond exporter. It supplies lab-grown diamonds in radiant, cushion, oval and princess cuts to jewellers, designers and collectors worldwide. ${disclosureText()} Sales are by enquiry: there is no online checkout, and prices are quoted on request.
 
 ## Contact
 - Email: ${CONTACT.email}

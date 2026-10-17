@@ -1,3 +1,5 @@
+import { diamonds, disclosureText } from "@/data/diamonds";
+
 // Single source of truth for site-wide facts used by metadata, structured data and llms.txt.
 
 export const SITE = {
@@ -5,9 +7,10 @@ export const SITE = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://bmgexports.vercel.app",
   tagline: "Brilliance, exported with integrity.",
   description:
-    "BMG Exports supplies certified diamonds, selected with care and delivered to jewellers, designers and collectors worldwide. Browse the collection and send an enquiry.",
+    "BMG Exports supplies lab-grown diamonds, selected with care and delivered to jewellers, designers and collectors worldwide. Browse the collection and send an enquiry.",
   keywords: [
-    "certified diamonds",
+    "lab grown diamonds",
+    "CVD diamonds",
     "diamond exporter",
     "blue diamonds",
     "blue diamond",
@@ -38,15 +41,21 @@ export const abs = (path: string) => new URL(path, SITE.url).toString();
 export const FAQ: { q: string; a: string }[] = [
   {
     q: "What does BMG Exports sell?",
-    a: "BMG Exports supplies certified diamonds to jewellers, designers and collectors worldwide. You can browse the collection online and send an enquiry for availability and pricing.",
+    a: "BMG Exports supplies lab-grown diamonds to jewellers, designers and collectors worldwide. You can browse the collection online and send an enquiry for availability and pricing.",
+  },
+  {
+    q: "Are your diamonds natural or lab-grown?",
+    a: `${disclosureText()} Each stone's card and page also says so.`,
+  },
+  {
+    q: "Are lab-grown diamonds real diamonds?",
+    a: "Lab-grown diamonds have the same chemical make-up and crystal structure as natural diamonds, but they are grown in a laboratory instead of being mined. They are not natural diamonds, and their price and value differ from natural stones.",
   },
   {
     q: "Are your diamonds certified?",
-    a: "Some stones are sold without a grading report. A stone's page says when it is non-certified. Ask us in an enquiry if you need a particular stone graded or documented.",
-  },
-  {
-    q: "Do you sell lab-grown diamonds?",
-    a: "Yes. Any lab-grown stone, such as a CVD diamond, is always labelled as lab-grown on its card and its page, together with how it was grown.",
+    a: diamonds.every((d) => d.nonCertified)
+      ? "Not at the moment. The stones currently listed are sold non-certified, without a grading report, and each stone's page says so. Ask us in an enquiry about documentation for a particular stone."
+      : "Some stones are sold non-certified, without a grading report, and a stone's page says when that is the case. Ask us in an enquiry about documentation for a particular stone.",
   },
   {
     q: "How do I buy a diamond from BMG Exports?",

@@ -3,7 +3,7 @@ import path from "node:path";
 import { ImageResponse } from "next/og";
 import { SITE } from "@/lib/site";
 
-export const alt = "BMG Exports — certified diamonds, exported with integrity";
+export const alt = "BMG Exports — lab-grown diamonds, exported with integrity";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

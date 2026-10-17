@@ -5,15 +5,15 @@ import FeaturedStonesSection from "@/components/FeaturedStonesSection";
 import { diamonds } from "@/data/diamonds";
 
 const trust = [
-  { title: "Clearly labelled", text: "Lab-grown stones are always marked as such." },
-  { title: "Ethically sourced", text: "Conflict-free, fully traceable supply." },
+  { title: "Clearly labelled", text: "Every stone is marked as lab-grown, and non-certified where that applies." },
+  { title: "Plainly described", text: "Carat, clarity and origin listed on every stone." },
   { title: "Worldwide", text: "Insured shipping to buyers across the globe." },
 ];
 
 export const metadata: Metadata = {
-  title: { absolute: "BMG Exports — Certified Diamonds, Exported Worldwide" },
+  title: { absolute: "BMG Exports — Lab-Grown Diamonds, Exported Worldwide" },
   description:
-    "Diamonds in radiant, cushion, oval and princess cuts, supplied to jewellers, designers and collectors worldwide. Explore the anatomy of a diamond and send an enquiry to BMG Exports.",
+    "Lab-grown diamonds in radiant, cushion, oval and princess cuts, supplied to jewellers, designers and collectors worldwide. Explore the anatomy of a diamond and send an enquiry to BMG Exports.",
   alternates: { canonical: "/" },
 };
 

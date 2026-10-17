@@ -37,9 +37,9 @@ export const SHAPE_CODES: Record<Shape, string> = { Radiant: "RAD", Cushion: "CS
 
 // Photos are real. Carat, colour, clarity, origin and certification status are the owner's figures; cut is not yet supplied.
 export const diamonds: Diamond[] = [
-  { id: "bmg-rad-0001", legacyIds: ["bmg-001", "bgm-001"], shape: "Radiant", carat: 1.324, color: "H", clarity: "VS1", image: "/images/radiant-face.jpg", sheet: "/images/radiant-sheet.jpg", featured: true },
-  { id: "bmg-csh-0002", legacyIds: ["bmg-002", "bgm-002"], shape: "Cushion", carat: 1.004, color: "J", clarity: "VS2", image: "/images/cushion-face.jpg", sheet: "/images/cushion-sheet.jpg", featured: true },
-  { id: "bmg-ovl-0003", legacyIds: ["bmg-003", "bgm-003"], shape: "Oval", carat: 1.563, color: "L", clarity: "VS1", image: "/images/oval-face.jpg", sheet: "/images/oval-sheet.jpg", featured: true },
+  { id: "bmg-rad-0001", labGrown: "CVD", nonCertified: true, legacyIds: ["bmg-001", "bgm-001"], shape: "Radiant", carat: 1.324, color: "H", clarity: "VS1", image: "/images/radiant-face.jpg", sheet: "/images/radiant-sheet.jpg", featured: true },
+  { id: "bmg-csh-0002", labGrown: "CVD", nonCertified: true, legacyIds: ["bmg-002", "bgm-002"], shape: "Cushion", carat: 1.004, color: "J", clarity: "VS2", image: "/images/cushion-face.jpg", sheet: "/images/cushion-sheet.jpg", featured: true },
+  { id: "bmg-ovl-0003", labGrown: "CVD", nonCertified: true, legacyIds: ["bmg-003", "bgm-003"], shape: "Oval", carat: 1.563, color: "L", clarity: "VS1", image: "/images/oval-face.jpg", sheet: "/images/oval-sheet.jpg", featured: true },
   {
     id: "bmg-prn-0004",
     shape: "Princess",
@@ -73,6 +73,22 @@ export const stoneSummary = (d: Diamond) =>
   ]
     .filter(Boolean)
     .join(", ");
+
+/**
+ * The disclosure shown on collection, shape and stone pages, in the footer, the FAQ and llms.txt. It is built
+ * from the data, so it stays true as stones are added: it says "all" only while that is actually the case.
+ */
+export const disclosureText = () => {
+  const labGrown = diamonds.filter((d) => d.labGrown);
+  const nonCert = diamonds.filter((d) => d.nonCertified);
+  const methods = [...new Set(labGrown.map((d) => d.labGrown))].join(" / ");
+  const parts: string[] = [];
+  if (labGrown.length === diamonds.length) parts.push(`All stones listed here are lab-grown diamonds (${methods}), not natural, mined diamonds.`);
+  else if (labGrown.length) parts.push(`Stones marked lab-grown (${methods}) are not natural, mined diamonds.`);
+  if (nonCert.length === diamonds.length) parts.push("They are sold non-certified, that is, without a grading report.");
+  else if (nonCert.length) parts.push("Stones marked non-certified are sold without a grading report.");
+  return parts.join(" ");
+};
 
 /** The stock number as shown to people, e.g. "BMG-RAD-0001". */
 export const stoneCode = (d: Diamond) => d.id.toUpperCase();

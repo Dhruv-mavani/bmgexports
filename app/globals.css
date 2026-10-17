@@ -45,6 +45,10 @@ body {
   }
 }
 
+details[open] > .faq-answer {
+  animation: fade-up 0.35s ease-out both;
+}
+
 .animate-fade-in {
   animation: fade-up 0.3s ease-out both;
 }
@@ -125,7 +129,8 @@ body {
     animation: none;
   }
   .fade-up,
-  .animate-fade-in {
+  .animate-fade-in,
+  details[open] > .faq-answer {
     animation: none;
   }
   html {
