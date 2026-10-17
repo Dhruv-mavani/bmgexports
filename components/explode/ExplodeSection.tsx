@@ -131,7 +131,7 @@ export default function ExplodeSection() {
   }
 
   return (
-    <section ref={wrapper} className="relative h-[500vh] border-b border-mist bg-gradient-to-b from-ice via-white to-white" aria-label="Anatomy of a diamond">
+    <section ref={wrapper} className="relative h-[300vh] border-b border-mist bg-gradient-to-b from-ice via-white to-white" aria-label="Anatomy of a diamond">
       {/* The pinned scene only shows one stage at a time. This keeps the whole story (and the page's
           single <h1>) in the document for search engines, screen readers and AI agents. */}
       <div className="sr-only">
