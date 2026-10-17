@@ -10,6 +10,8 @@ import {
   getShapeBySlug,
   shapePath,
   shapeSlug,
+  certificationLabel,
+  originLabel,
   stoneCode,
   stoneName,
   stonePath,
@@ -54,10 +56,11 @@ export default async function DiamondPage(props: PageProps<"/collection/[shape]/
     ["Stock number", code],
     ["Shape", d.shape],
     ["Carat", fmtCarat(d.carat)],
-    ["Colour", d.color],
+    ...(d.color ? [["Colour", d.color]] : []),
     ["Clarity", d.clarity],
     ...(d.cut ? [["Cut", d.cut]] : []),
-    ...(d.certificate ? [["Certificate", d.certificate]] : []),
+    ...(originLabel(d) ? [["Origin", originLabel(d)!]] : []),
+    ...(certificationLabel(d) ? [["Certification", certificationLabel(d)!]] : []),
   ];
 
   return (
@@ -79,10 +82,11 @@ export default async function DiamondPage(props: PageProps<"/collection/[shape]/
               additionalProperty: [
                 { "@type": "PropertyValue", name: "Shape", value: d.shape },
                 { "@type": "PropertyValue", name: "Carat weight", value: d.carat, unitText: "ct" },
-                { "@type": "PropertyValue", name: "Colour", value: d.color },
+                ...(d.color ? [{ "@type": "PropertyValue", name: "Colour", value: d.color }] : []),
                 { "@type": "PropertyValue", name: "Clarity", value: d.clarity },
                 ...(d.cut ? [{ "@type": "PropertyValue", name: "Cut", value: d.cut }] : []),
-                ...(d.certificate ? [{ "@type": "PropertyValue", name: "Certificate", value: d.certificate }] : []),
+                ...(d.labGrown ? [{ "@type": "PropertyValue", name: "Origin", value: `Lab-grown (${d.labGrown})` }] : []),
+                ...(certificationLabel(d) ? [{ "@type": "PropertyValue", name: "Certification", value: certificationLabel(d) }] : []),
               ],
             },
             {
@@ -142,7 +146,7 @@ export default async function DiamondPage(props: PageProps<"/collection/[shape]/
           <DiamondZoomViewer
             primaryImage={d.image}
             sheetImage={d.sheet}
-            alt={`${d.shape} cut blue diamond — up, down, side and angled views`}
+            alt={`${d.shape} cut diamond — up, down, side and angled views`}
             initialView="sheet"
             aspectRatioClass="aspect-[3/2]"
           />
@@ -153,9 +157,18 @@ export default async function DiamondPage(props: PageProps<"/collection/[shape]/
               </p>
               <h1 className="mt-2 font-serif text-3xl font-normal leading-tight text-navy sm:text-4xl lg:text-5xl">{stoneName(d)}</h1>
               <p className="mt-1 text-xs tracking-wide text-slate sm:text-sm">
-                Colour {d.color} · {d.clarity} clarity
-                {d.certificate ? ` · ${d.certificate} certified` : ""}
+                {[d.color && `Colour ${d.color}`, `${d.clarity} clarity`].filter(Boolean).join(" · ")}
               </p>
+              {(originLabel(d) || certificationLabel(d)) && (
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {originLabel(d) && (
+                    <li className="border border-navy/40 bg-navy/5 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-navy">{originLabel(d)}</li>
+                  )}
+                  {certificationLabel(d) && (
+                    <li className="border border-mist bg-ice px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-royal">{certificationLabel(d)}</li>
+                  )}
+                </ul>
+              )}
 
               <dl className="mt-8 divide-y divide-mist/70 border border-mist/80 bg-white">
                 {specs.map(([k, v]) => (

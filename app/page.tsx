@@ -5,7 +5,7 @@ import FeaturedStonesSection from "@/components/FeaturedStonesSection";
 import { diamonds } from "@/data/diamonds";
 
 const trust = [
-  { title: "Certified", text: "Every stone graded by GIA or IGI." },
+  { title: "Clearly labelled", text: "Lab-grown stones are always marked as such." },
   { title: "Ethically sourced", text: "Conflict-free, fully traceable supply." },
   { title: "Worldwide", text: "Insured shipping to buyers across the globe." },
 ];
@@ -13,7 +13,7 @@ const trust = [
 export const metadata: Metadata = {
   title: { absolute: "BMG Exports — Certified Diamonds, Exported Worldwide" },
   description:
-    "Certified diamonds, including blue stones, supplied to jewellers, designers and collectors worldwide. Explore the anatomy of a diamond and send an enquiry to BMG Exports.",
+    "Diamonds in radiant, cushion, oval and princess cuts, supplied to jewellers, designers and collectors worldwide. Explore the anatomy of a diamond and send an enquiry to BMG Exports.",
   alternates: { canonical: "/" },
 };
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { fmtCarat, stoneCode, stonePath, type Diamond } from "@/data/diamonds";
+import { certificationLabel, fmtCarat, originLabel, stoneCode, stonePath, type Diamond } from "@/data/diamonds";
 
 export interface DiamondCardProps {
   diamond: Diamond;
@@ -29,7 +29,7 @@ export default function DiamondCard({ diamond, priority = false }: DiamondCardPr
         >
           <Image
             src={imageSrc}
-            alt={`${diamond.shape} cut blue diamond, stock number ${stoneCode(diamond)}`}
+            alt={`${diamond.shape} cut diamond, stock number ${stoneCode(diamond)}`}
             fill
             priority={priority}
             sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
@@ -79,8 +79,19 @@ export default function DiamondCard({ diamond, priority = false }: DiamondCardPr
               {fmtCarat(diamond.carat)} <span className="font-sans text-xs tracking-[0.2em] uppercase text-slate font-medium">CT</span> {diamond.shape}
             </h3>
             <p className="mt-1 text-xs text-slate tracking-wide">
-              Colour {diamond.color} · {diamond.clarity}{diamond.certificate ? ` · ${diamond.certificate} Certified` : ""}
+              {[diamond.color && `Colour ${diamond.color}`, diamond.clarity].filter(Boolean).join(" · ")}
             </p>
+            {/* Origin and certification are always spelled out when recorded (lab-grown stones must be labelled). */}
+            {(originLabel(diamond) || certificationLabel(diamond)) && (
+              <ul className="mt-3 flex flex-wrap gap-1.5">
+                {originLabel(diamond) && (
+                  <li className="border border-navy/40 bg-navy/5 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.15em] text-navy">{originLabel(diamond)}</li>
+                )}
+                {certificationLabel(diamond) && (
+                  <li className="border border-mist bg-ice px-2 py-0.5 text-[9px] uppercase tracking-[0.15em] text-royal">{certificationLabel(diamond)}</li>
+                )}
+              </ul>
+            )}
             <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-slate/70">{stoneCode(diamond)}</p>
           </Link>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { diamonds, stoneCode, stoneName, stonePath } from "@/data/diamonds";
+import { certificationLabel, diamonds, stoneCode, stoneName, stonePath } from "@/data/diamonds";
 import { abs } from "@/lib/site";
 
 // Exposes the site's capabilities as tools to browser agents via WebMCP (navigator.modelContext).
@@ -28,10 +28,11 @@ const summarise = (d: (typeof diamonds)[number]) => ({
   name: stoneName(d),
   shape: d.shape,
   carat: d.carat,
-  colour: d.color,
+  ...(d.color ? { colour: d.color } : {}),
   clarity: d.clarity,
   ...(d.cut ? { cut: d.cut } : {}),
-  ...(d.certificate ? { certificate: d.certificate } : {}),
+  ...(d.labGrown ? { lab_grown: true, growth_method: d.labGrown } : {}),
+  ...(certificationLabel(d) ? { certification: certificationLabel(d) } : {}),
   url: abs(stonePath(d)),
 });
 

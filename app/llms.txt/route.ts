@@ -13,7 +13,7 @@ export function GET() {
 
 > ${SITE.description}
 
-BMG Exports is a diamond exporter. It supplies certified diamonds, including blue stones, to jewellers, designers and collectors worldwide. Stones are graded by independent laboratories (GIA or IGI). Sales are by enquiry: there is no online checkout, and prices are quoted on request.
+BMG Exports is a diamond exporter. It supplies diamonds in radiant, cushion, oval and princess cuts to jewellers, designers and collectors worldwide. Lab-grown stones (for example CVD) are always labelled as lab-grown, and a stone sold without a grading report is labelled non-certified. Sales are by enquiry: there is no online checkout, and prices are quoted on request.
 
 ## Contact
 - Email: ${CONTACT.email}

@@ -7,9 +7,9 @@ import { diamonds, diamondsOfShape, shapePath, shapes, stoneCode, stoneName, sto
 import { abs } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Collection — Certified Blue Diamonds",
+  title: "Collection — Diamonds in Stock",
   description:
-    "Browse certified blue diamonds from BMG Exports in radiant, cushion and oval cuts. Filter by shape and carat, then enquire about any stone.",
+    "Browse diamonds from BMG Exports in radiant, cushion, oval and princess cuts. Filter by shape and carat, then enquire about any stone.",
   alternates: { canonical: "/collection" },
 };
 
@@ -46,7 +46,7 @@ export default function CollectionPage() {
         }}
       />
     <section className="mx-auto max-w-6xl px-4 sm:px-6 py-20">
-      <SectionHeading level={1} eyebrow="Collection" title="Certified diamonds" intro="Filter by shape and size to find your stone." />
+      <SectionHeading level={1} eyebrow="Collection" title="Diamonds in stock" intro="Filter by shape and size to find your stone." />
       <nav aria-label="Browse by shape" className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
         <span className="w-full text-center text-[11px] uppercase tracking-[0.25em] text-slate sm:w-auto">Browse by shape</span>
         {shapes.map((s) => (

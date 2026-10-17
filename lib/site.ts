@@ -11,8 +11,7 @@ export const SITE = {
     "diamond exporter",
     "blue diamonds",
     "blue diamond",
-    "GIA certified diamonds",
-    "IGI certified diamonds",
+    "lab-grown diamonds",
     "wholesale diamonds",
     "loose diamonds",
     "BMG Exports",
@@ -43,7 +42,11 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Are your diamonds certified?",
-    a: "Yes. Every stone we offer is graded by an independent gemological laboratory, GIA or IGI, and the certificate is listed with the stone.",
+    a: "Some stones are sold without a grading report. A stone's page says when it is non-certified. Ask us in an enquiry if you need a particular stone graded or documented.",
+  },
+  {
+    q: "Do you sell lab-grown diamonds?",
+    a: "Yes. Any lab-grown stone, such as a CVD diamond, is always labelled as lab-grown on its card and its page, together with how it was grown.",
   },
   {
     q: "How do I buy a diamond from BMG Exports?",

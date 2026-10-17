@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
   title: "About BMG Exports",
   description:
-    "BMG Exports supplies certified diamonds to jewellers, designers and collectors worldwide, with honest grading, careful selection and responsible sourcing.",
+    "BMG Exports supplies diamonds to jewellers, designers and collectors worldwide, with careful selection and plain, honest descriptions of every stone.",
   alternates: { canonical: "/about" },
 };
 
@@ -24,20 +25,33 @@ export default function AboutPage() {
           aria-hidden
         />
 
-        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading level={1} eyebrow="About" title="The BMG Exports story" />
 
-          {/* Editorial Story Frame */}
-          <div className="mx-auto mt-12 max-w-3xl border border-mist/80 bg-white p-8 sm:p-12 shadow-xs">
-            <div className="space-y-6 text-base sm:text-lg leading-relaxed text-slate font-light">
-              <p>
-                BMG Exports supplies certified diamonds to jewellers, designers and collectors around the world.
-                We combine careful selection with a straightforward, personal way of doing business.
-              </p>
-              <p>
-                Every stone we offer is graded by a leading laboratory and inspected by our team before it ships. Our aim is
-                simple: exceptional diamonds, delivered reliably, at fair prices.
-              </p>
+          {/* Story: photo and text side by side from tablet width, stacked on phones */}
+          <div className="mt-12 grid items-stretch gap-8 md:grid-cols-2 md:gap-10">
+            <figure className="relative aspect-[3/2] w-full overflow-hidden border border-mist/80 bg-ice md:aspect-auto md:min-h-[22rem]">
+              <Image
+                src="/images/about-craft.jpg"
+                alt="A gem specialist examining a small blue stone through a jeweller's loupe"
+                fill
+                sizes="(min-width: 1024px) 480px, (min-width: 768px) 45vw, 100vw"
+                className="object-cover object-[45%_50%]"
+                priority
+              />
+            </figure>
+
+            <div className="flex flex-col justify-center border border-mist/80 bg-white p-6 shadow-xs sm:p-10">
+              <div className="space-y-5 text-base font-light leading-relaxed text-slate sm:text-lg">
+                <p>
+                  BMG Exports supplies diamonds to jewellers, designers and collectors around the world.
+                  We combine careful selection with a straightforward, personal way of doing business.
+                </p>
+                <p>
+                  We describe every stone plainly, including whether it is lab-grown and whether it comes with a grading
+                  report. Our aim is simple: exceptional diamonds, delivered reliably, at fair prices.
+                </p>
+              </div>
             </div>
           </div>
         </div>
