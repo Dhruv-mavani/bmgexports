@@ -9,6 +9,7 @@ import { CONTACT, SITE } from "@/lib/site";
 const links = [
   { href: "/", label: "Home" },
   { href: "/collection", label: "Collection" },
+  { href: "/watches", label: "Watches" },
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },

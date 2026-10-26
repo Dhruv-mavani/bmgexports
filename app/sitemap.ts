@@ -1,14 +1,16 @@
 import type { MetadataRoute } from "next";
 import { certificationPath, certifications, diamonds, diamondsByCertification, shapePath, shapes, stonePath } from "@/data/diamonds";
+import { watchPath, watches } from "@/data/watches";
 import { abs } from "@/lib/site";
 
 // Update when content changes meaningfully (kept static so the sitemap is fully prerendered).
-const LAST_MODIFIED = "2026-10-16";
+const LAST_MODIFIED = "2026-10-26";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages: { path: string; priority: number }[] = [
     { path: "/", priority: 1 },
     { path: "/collection", priority: 0.9 },
+    { path: "/watches", priority: 0.9 },
     { path: "/about", priority: 0.6 },
     { path: "/faq", priority: 0.7 },
     { path: "/contact", priority: 0.7 },
@@ -27,6 +29,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...diamonds.map((d) => ({
       url: abs(stonePath(d)),
+      lastModified: LAST_MODIFIED,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })),
+    ...watches.map((w) => ({
+      url: abs(watchPath(w)),
       lastModified: LAST_MODIFIED,
       changeFrequency: "weekly" as const,
       priority: 0.8,

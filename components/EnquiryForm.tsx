@@ -60,7 +60,7 @@ export default function EnquiryForm() {
       onSubmit={onSubmit}
       className="space-y-5"
       // WebMCP: lets browser agents discover this form as a tool (the user still reviews and sends it).
-      {...{ toolname: "send_enquiry", tooldescription: "Send an enquiry to BMG Exports about a diamond. Requires name, email and message; stone is an optional stock number such as BMG-0001." }}
+      {...{ toolname: "send_enquiry", tooldescription: "Send an enquiry to BMG Exports about a diamond or watch. Requires name, email and message; stone is an optional stock number such as BMG-0001 or BMG-W-0001." }}
     >
       <div className="grid gap-6 sm:grid-cols-2">
         <label className="block text-xs uppercase tracking-[0.16em] text-slate font-medium">
@@ -78,7 +78,7 @@ export default function EnquiryForm() {
           <input name="phone" type="tel" maxLength={30} autoComplete="tel" className={field} />
         </label>
         <label className="block text-xs uppercase tracking-[0.16em] text-slate font-medium">
-          Stone reference (optional)
+          Stone or watch reference (optional)
           <input name="stone" defaultValue={stone} maxLength={50} className={field} />
         </label>
       </div>

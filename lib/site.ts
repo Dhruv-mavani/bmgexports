@@ -41,7 +41,7 @@ export const abs = (path: string) => new URL(path, SITE.url).toString();
 export const FAQ: { q: string; a: string }[] = [
   {
     q: "What does BMG Exports sell?",
-    a: "BMG Exports supplies lab-grown diamonds to jewellers, designers and collectors worldwide. You can browse the collection online and send an enquiry for availability and pricing.",
+    a: "BMG Exports supplies lab-grown diamonds to jewellers, designers and collectors worldwide. It also lists automatic skeleton watches. You can browse the collection and watches online and send an enquiry for availability and pricing.",
   },
   {
     q: "Are your diamonds natural or lab-grown?",
