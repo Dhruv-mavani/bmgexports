@@ -2,7 +2,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import ExplodeSection from "@/components/explode/ExplodeSection";
 import FeaturedStonesSection from "@/components/FeaturedStonesSection";
+import FeaturedWatchesSection from "@/components/FeaturedWatchesSection";
 import { diamonds } from "@/data/diamonds";
+import { watches } from "@/data/watches";
 
 const trust = [
   { title: "Clearly labelled", text: "Every stone is marked as lab-grown, and non-certified where that applies." },
@@ -41,6 +43,9 @@ export default function Home() {
 
       {/* Featured Selected Stones */}
       <FeaturedStonesSection initialDiamonds={featured} />
+
+      {/* Watches teaser */}
+      <FeaturedWatchesSection watches={watches.filter((w) => w.featured)} />
 
       {/* Bespoke Sourcing Callout */}
       <section className="relative overflow-hidden bg-navy text-white">
